@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>layout</title>
+</head>
+
+<body>
+    {% macro header(title) %}
+    <header
+        style="background:#282A35;color:#fff;padding:18px 0 18px 32px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 8px #e0e0e0;">
+        <span style="font-size:1.5rem;font-weight:bold;letter-spacing:1px;color:#04AA6D;">CareerCraft</span>
+        <span style="font-size:1.1rem;color:#fff;">{{ title }}</span>
+    </header>
+    {% endmacro %}
+
+    {% macro footer() %}
+    <footer
+        style="background:#282A35;color:#fff;padding:18px 0;text-align:center;margin-top:40px;box-shadow:0 -2px 8px #e0e0e0;">
+        <span>&copy; 2025 CareerCraft. All rights reserved.</span>
+    </footer>
+    {% endmacro %}
+</body>
+
+</html>

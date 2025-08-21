@@ -1,0 +1,38 @@
+{% import '_layout.html' as layout %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Your Profile - CareerCraft</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="stylesheet" href="/static/resume.css">
+</head>
+
+<body style="background: #0a0a0a; color: #e0ffe0;">
+    {{ layout.header('Profile') }}
+    <div class="resume-box"
+        style="display:flex;flex-direction:column;align-items:center;background:#101c14;border-radius:16px;padding:32px 24px;box-shadow:0 2px 16px #021;max-width:420px;margin:40px auto;">
+        <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="Profile Photo"
+            style="width:110px;height:110px;border-radius:50%;box-shadow:0 2px 8px #021;margin-bottom:12px;object-fit:cover;">
+        <h1 style="color:#1db954;">👤 {{ resume.name }}</h1>
+        <p><strong>Email:</strong> {{ resume.email }}</p>
+        <h2 style="color:#7fff7f;">Career Goal: {{ resume.career }}</h2>
+        <p>{{ resume.summary }}</p>
+        <div class="skills-list">
+            <strong>Skills:</strong>
+            <ul>
+                {% for skill in resume.skills %}
+                <li style="color:#e0ffe0;background:#101c14;border:1px solid #1db954;">✔️ {{ skill }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <a href="{{ url_for('dashboard') }}"
+            style="display:inline-block; margin-top:18px; color:#1db954; text-decoration:underline;">&larr; Back to
+            Dashboard</a>
+    </div>
+    {{ layout.footer() }}
+</body>
+
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>CareerCraft Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+</head>
+
+
+<body style="background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%); min-height:100vh; overflow-x:hidden;">
+    <div class="w3-topbar" style="background:rgba(40,42,53,0.95);backdrop-filter:blur(4px);">
+        <span class="logo animate__animated animate__fadeInDown">CareerCraft</span>
+        <span class="user animate__animated animate__fadeInRight">Welcome, {{ resume.get('name', 'Student') }}</span>
+    </div>
+    <div class="w3-sidebar" style="background:rgba(255,255,255,0.97);backdrop-filter:blur(2px);">
+        <a href="{{ url_for('dashboard') }}" class="active">🏠 Dashboard</a>
+        <a href="{{ url_for('resume') }}">👤 Profile</a>
+        <a href="{{ url_for('mentors') }}">👥 Mentors</a>
+        <a href="{{ url_for('progress') }}">📈 Progress</a>
+        <a href="{{ url_for('jobs') }}">💼 Jobs</a>
+        <a href="{{ url_for('courses') }}">🎓 Courses</a>
+        <a href="{{ url_for('roadmap') }}">🗺️ Roadmap</a>
+        <a href="/meet" target="_blank">🎥 Google Meet</a>
+        <a href="/assistant" target="_blank">🤖 AI Assistant</a>
+    </div>
+    <div class="w3-main">
+        <div
+            style="margin:60px auto;max-width:650px;text-align:center;background:rgba(255,255,255,0.93);border-radius:22px;padding:48px 36px;box-shadow:0 4px 32px #b0c4de;position:relative;overflow:hidden;">
+            <h1 class="animate__animated animate__fadeInUp"
+                style="color:#04AA6D;font-size:2.5rem;margin-bottom:18px;letter-spacing:1px;">Welcome to CareerCraft!
+            </h1>
+            <p class="animate__animated animate__fadeIn" style="font-size:1.25rem;color:#2d3e50;margin-bottom:24px;">
+                CareerCraft is your all-in-one career guidance and skill development platform. Explore personalized
+                roadmaps, connect with mentors, track your progress, discover jobs, and access curated courses—all in
+                one place. Start your journey to a brighter future today!</p>
+            <div style="margin-top:32px;">
+                <h3 style="color:#2d3e50;">People</h3>
+                <p style="color:#555;">Meet mentors, connect with professionals, and grow your network!</p>
+            </div>
+            <div class="animated-bg-circles">
+                <div class="circle" style="top:10%;left:5%;background:#04AA6D;opacity:0.12;"></div>
+                <div class="circle" style="top:70%;left:80%;background:#2d3e50;opacity:0.10;"></div>
+                <div class="circle" style="top:50%;left:60%;background:#ffd700;opacity:0.13;"></div>
+            </div>
+        </div>
+    </div>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <style>
+        .animated-bg-circles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .animated-bg-circles .circle {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            filter: blur(2px);
+            animation: float 7s ease-in-out infinite alternate;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) scale(1);
+            }
+
+            100% {
+                transform: translateY(-30px) scale(1.08);
+            }
+        }
+    </style>
+    <script src="{{ url_for('static', filename='dashboard.js') }}"></script>
+</body>
+
+</html>
