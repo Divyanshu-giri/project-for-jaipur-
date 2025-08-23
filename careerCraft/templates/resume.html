@@ -3,20 +3,11 @@
 {% block content %}
 <div class="w3-main">
     <div class="card">
-        <h2 class="card-title">Profile</h2>
-        <p><strong>Name:</strong> {{ resume.get('name', 'Student') }}</p>
-        <p><strong>Email:</strong> {{ resume.get('email', '') }}</p>
-        <a href="{{ url_for('dashboard') }}" class="btn" style="margin-top:2rem;">← Back to Dashboard</a>
-    </div>
-</div>
-{% endblock %}
-    {{ layout.header('Profile') }}
-    <div>
-        <h2>Your Profile</h2>
+        <h2 class="card-title">Your Profile</h2>
         <hr>
         <form method="POST" enctype="multipart/form-data">
             <div>
-                <img id="profilePhotoPreview" src="{{ profile.photo }}" alt="Profile Photo">
+                <img id="profilePhotoPreview" src="{{ resume.photo if resume.photo else url_for('static', filename='profile_photos/default.jpg') }}" alt="Profile Photo">
                 <label for="photo_upload" title="Change photo">
                     <span>✎</span>
                     <input type="file" name="photo_upload" id="photo_upload" accept="image/*"
@@ -28,26 +19,26 @@
                 <label for="name">Name:</label>
                 <button type="button" onclick="toggleEdit('name')" title="Edit Name">✎</button>
             </div>
-            <input type="text" name="name" id="name" value="{{ profile.name }}" readonly>
+            <input type="text" name="name" id="name" value="{{ resume.get('name', 'Student') }}" readonly>
             <div>
                 <label for="email">Email:</label>
                 <button type="button" onclick="toggleEdit('email')" title="Edit Email">✎</button>
             </div>
-            <input type="email" name="email" id="email" value="{{ profile.email }}" readonly>
+            <input type="email" name="email" id="email" value="{{ resume.get('email', '') }}" readonly>
             <label for="about">About:</label>
-            <textarea name="about" id="about" rows="2">{{ profile.about }}</textarea>
+            <textarea name="about" id="about" rows="2">{{ resume.get('about', 'Passionate learner ready to grow!') }}</textarea>
             <label for="education">Education:</label>
-            <input type="text" name="education" id="education" value="{{ profile.education }}">
+            <input type="text" name="education" id="education" value="{{ resume.get('education', 'Not specified') }}">
             <label for="hobbies">Hobbies:</label>
-            <input type="text" name="hobbies" id="hobbies" value="{{ profile.hobbies }}">
+            <input type="text" name="hobbies" id="hobbies" value="{{ resume.get('hobbies', '') }}">
             <label for="career">Career Goal:</label>
-            <input type="text" name="career" id="career" value="{{ profile.career }}">
+            <input type="text" name="career" id="career" value="{{ resume.get('career', 'Software Developer') }}">
             <label for="summary">Summary:</label>
-            <textarea name="summary" id="summary" rows="2">{{ profile.summary }}</textarea>
+            <textarea name="summary" id="summary" rows="2">{{ resume.get('summary', 'Aspiring professional with strong foundational skills.') }}</textarea>
             <div>
                 <strong>Skills:</strong>
                 <ul>
-                    {% for skill in profile.skills %}
+                    {% for skill in resume.get('skills', []) %}
                     <li>
                         ✔️ {{ skill }}
                         <button name="del_skill" value="{{ skill }}" title="Remove skill">✖</button>
@@ -60,34 +51,36 @@
                 </div>
             </div>
             <button type="submit">Save Profile</button>
+            <a href="{{ url_for('dashboard') }}" class="btn" style="margin-top:2rem; margin-left:1rem;">← Back to Dashboard</a>
         </form>
     </div>
-    <script>
-        function toggleEdit(field) {
-            var input = document.getElementById(field);
-            if (input.hasAttribute('readonly')) {
-                input.removeAttribute('readonly');
-                input.focus();
-            } else {
-                input.setAttribute('readonly', 'readonly');
-            }
+</div>
+<script>
+    function toggleEdit(field) {
+        var input = document.getElementById(field);
+        if (input.hasAttribute('readonly')) {
+            input.removeAttribute('readonly');
+            input.focus();
+        } else {
+            input.setAttribute('readonly', 'readonly');
         }
+    }
 
-        function previewProfilePhoto(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                const img = document.getElementById('profilePhotoPreview');
-                img.src = e.target.result;
-            };
-            reader.readAsDataURL(file);
-        }
+    function previewProfilePhoto(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            const img = document.getElementById('profilePhotoPreview');
+            img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
 
-        function setProfilePhoto() {
-            document.getElementById('setProfilePhotoBtn').style.display = 'none';
-            alert('Profile photo will be updated after you save your profile.');
-        }
-    </script>
-    {{ layout.footer() }}
+    function setProfilePhoto() {
+        document.getElementById('setProfilePhotoBtn').style.display = 'none';
+        alert('Profile photo will be updated after you save your profile.');
+    }
+</script>
+{% endblock %}
   

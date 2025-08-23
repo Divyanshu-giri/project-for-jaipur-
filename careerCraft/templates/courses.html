@@ -18,22 +18,3 @@
     </div>
 </div>
 {% endblock %}
-{% block content %}
-<div class="w3-main">
-    <a href="{{ url_for('dashboard') }}" class="btn" style="margin-bottom:1rem;">← Back to Dashboard</a>
-    <div class="card">
-        <h2>🎓 Recommended Courses</h2>
-        <div>
-            {% if courses %}
-            <ul>
-                {% for course in courses %}
-                <li><a href="{{ course.url }}" target="_blank">{{ course.title }}</a></li>
-                {% endfor %}
-            </ul>
-            {% else %}
-            <p>No courses found for this field.</p>
-            {% endif %}
-        </div>
-    </div>
-</div>
-{% endblock %}
