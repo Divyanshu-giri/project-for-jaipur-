@@ -379,3 +379,216 @@ hr {
         padding: 1rem;
     }
 }
+
+/* AI Assistant Styles */
+.assistant-container {
+    background: #1a1a1a;
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 2px solid #1e90ff;
+    box-shadow: 0 4px 20px rgba(30, 144, 255, 0.2);
+}
+
+.assistant-header {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #333;
+}
+
+.assistant-controls {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.assistant-controls button {
+    background: linear-gradient(90deg, #00ff99 0%, #1e90ff 100%);
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    color: #181818;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.assistant-controls button:hover {
+    background: linear-gradient(90deg, #ff9800 0%, #1e90ff 100%);
+    transform: scale(1.05);
+}
+
+.mentor-contact {
+    background: #222;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    border-left: 4px solid #ff9800;
+}
+
+.mentor-contact p {
+    margin: 0 0 0.5rem 0;
+    color: #00ff99;
+}
+
+.mentor-contact button {
+    background: linear-gradient(90deg, #ff9800 0%, #ff6b00 100%);
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    color: white;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.chat-container {
+    background: #222;
+    border-radius: 12px;
+    padding: 1rem;
+    border: 1px solid #333;
+}
+
+.chat-log {
+    height: 300px;
+    overflow-y: auto;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background: #1a1a1a;
+    border-radius: 8px;
+    border: 1px solid #333;
+}
+
+.chat-log::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chat-log::-webkit-scrollbar-track {
+    background: #1a1a1a;
+}
+
+.chat-log::-webkit-scrollbar-thumb {
+    background: #00ff99;
+    border-radius: 3px;
+}
+
+.message {
+    display: flex;
+    margin-bottom: 1rem;
+    animation: fadeIn 0.3s;
+}
+
+.message:last-child {
+    margin-bottom: 0;
+}
+
+.user-message {
+    justify-content: flex-end;
+}
+
+.ai-message {
+    justify-content: flex-start;
+}
+
+.avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    margin: 0 0.5rem;
+    flex-shrink: 0;
+}
+
+.user-message .avatar {
+    background: linear-gradient(135deg, #1e90ff, #00bfff);
+}
+
+.ai-message .avatar {
+    background: linear-gradient(135deg, #00ff99, #00cc88);
+}
+
+.message-content {
+    background: #333;
+    padding: 0.8rem 1rem;
+    border-radius: 12px;
+    max-width: 70%;
+    word-wrap: break-word;
+}
+
+.user-message .message-content {
+    background: linear-gradient(135deg, #1e90ff, #00bfff);
+    color: white;
+    border-bottom-right-radius: 4px;
+}
+
+.ai-message .message-content {
+    background: #2a2a2a;
+    color: #e0e0e0;
+    border-bottom-left-radius: 4px;
+    border: 1px solid #00ff99;
+}
+
+.chat-input-container {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.chat-input-container input {
+    flex: 1;
+    background: #2a2a2a;
+    border: 2px solid #1e90ff;
+    color: #e0e0e0;
+    padding: 0.8rem;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.chat-input-container input:focus {
+    border-color: #00ff99;
+    box-shadow: 0 0 8px rgba(0, 255, 153, 0.3);
+    outline: none;
+}
+
+.chat-input-container button {
+    background: linear-gradient(90deg, #00ff99 0%, #1e90ff 100%);
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    color: #181818;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.chat-input-container button:hover {
+    background: linear-gradient(90deg, #ff9800 0%, #1e90ff 100%);
+    transform: scale(1.05);
+}
+
+/* Typing animation for AI messages */
+.ai-message .message-content::after {
+    content: '';
+    animation: typing 1s infinite;
+}
+
+@keyframes typing {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 1; }
+}
+
+/* Message animations */
+@keyframes messageSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.message {
+    animation: messageSlideIn 0.3s ease-out;
+}

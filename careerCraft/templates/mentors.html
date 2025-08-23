@@ -14,18 +14,3 @@
     </div>
 </div>
 {% endblock %}
-{% block content %}
-<div class="w3-main">
-    <a href="{{ url_for('dashboard') }}" class="btn" style="margin-bottom:1rem;">← Back to Dashboard</a>
-    <div class="card">
-        <h2>👥 Recommended Mentees</h2>
-        {% for mentee in mentees %}
-        <div>
-            <h3>👤 {{ mentee.name }}</h3>
-            <p><strong>Field:</strong> {{ mentee.field }}</p>
-            <button>✉️ Connect</button>
-        </div>
-        {% endfor %}
-    </div>
-</div>
-{% endblock %}

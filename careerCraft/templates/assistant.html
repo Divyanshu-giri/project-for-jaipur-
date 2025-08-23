@@ -11,41 +11,45 @@
 </head>
 
 <body>
-    <div>
-        <div>
-            <div title="New Chat" onclick="newChat()">💬</div>
-            <div title="Mentor" onclick="alert('Mentor features coming soon!')">👤</div>
-            <div title="Settings" onclick="alert('Settings coming soon!')">⚙️</div>
-        </div>
-        <div>
-            <div>
-                CareerCraft Assistant
-                <button onclick="newChat()">+ New Chat</button>
-            </div>
-            <div>
-                <p><strong>Demo Mentor Contact:</strong> +1-555-123-4567</p>
-                <button onclick="alert('Calling AI Mentor... (Demo)')">Call AI Mentor</button>
-            </div>
-            <div>
-                <div id="chat-log">
-                    <div>
-                        <div>🤖</div>
-                        <div>Hi! I'm your AI career assistant. Ask me anything about your career or skills.</div>
-                    </div>
-                </div>
-                <div>
-                    <input type="text" id="chat-input" placeholder="Type your question..." autocomplete="off">
-                    <button id="send-btn" onclick="sendMsg()">Send</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    {% extends "_layout.html" %}
+    {% block content %}
     <div class="w3-main">
         <a href="{{ url_for('dashboard') }}" class="btn" style="margin-bottom:1rem;">← Back to Dashboard</a>
         <div class="card">
-            <!-- Page-specific content here -->
+            <h2>🤖 AI Career Assistant</h2>
+            
+            <div class="assistant-container">
+                <div class="assistant-header">
+                    <div class="assistant-controls">
+                        <button onclick="newChat()" title="New Chat">💬 New Chat</button>
+                        <button onclick="alert('Mentor features coming soon!')" title="Mentor">👤 Mentor</button>
+                        <button onclick="alert('Settings coming soon!')" title="Settings">⚙️ Settings</button>
+                    </div>
+                </div>
+                
+                <div class="mentor-contact">
+                    <p><strong>Demo Mentor Contact:</strong> +1-555-123-4567</p>
+                    <button onclick="callMentor()">📞 Call AI Mentor</button>
+                </div>
+                
+                <div class="chat-container">
+                    <div id="chat-log" class="chat-log">
+                        <div class="message ai-message">
+                            <div class="avatar">🤖</div>
+                            <div class="message-content">
+                                Hi! I'm your AI career assistant. Ask me anything about your career or skills.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="chat-input-container">
+                        <input type="text" id="chat-input" placeholder="Type your career question..." autocomplete="off">
+                        <button id="send-btn">Send</button>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
+    {% endblock %}
     <script>
         function newChat() {
             var log = document.getElementById('chat-log');
