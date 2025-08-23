@@ -1,3 +1,7 @@
+from flask import Flask, render_template, session
+
+app = Flask(__name__)
+
 def generate_resume(data):
     name = data.get('name', 'Student')
     email = data.get('email', '')
@@ -27,3 +31,18 @@ def generate_resume(data):
         "education": education,
         "hobbies": hobbies
     }
+
+@app.route('/resume')
+def resume():
+    # Example: wrong way
+    # resume = session.get('user')  # This is a string!
+    # return render_template('resume.html', resume=resume)
+
+    # Correct way: use a dict
+    resume = {
+        'name': session.get('user', 'Student'),
+        # Add other fields as needed
+        'email': session.get('user', ''),
+        # ...more profile fields...
+    }
+    return render_template('resume.html', resume=resume)

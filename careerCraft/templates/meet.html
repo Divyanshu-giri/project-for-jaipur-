@@ -4,15 +4,34 @@
 <head>
     <meta charset="UTF-8">
     <title>Google Meet Room</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    
 </head>
 
 <body>
-    <div>
-        <h2>Google Meet Room</h2>
-        <p>Click below to join a Google Meet video call for your interview or mentorship session.</p>
-        <div id="meet-link">https://meet.google.com/demo-room-{{ user_id|default('12345') }}</div>
-        <a href="https://meet.google.com/demo-room-{{ user_id|default('12345') }}" target="_blank">Join Meet</a>
+    {% extends "_layout.html" %}
+    {% block content %}
+    <div class="w3-main">
+        <a href="{{ url_for('dashboard') }}" class="btn" style="margin-bottom:1rem;">← Back to Dashboard</a>
+        <div class="card">
+            <h2>Google Meet Room</h2>
+            <p>Click below to join a Google Meet video call for your interview or mentorship session.</p>
+            <div id="meet-link">https://meet.google.com/demo-room-{{ user_id|default('12345') }}</div>
+            <a href="https://meet.google.com/demo-room-{{ user_id|default('12345') }}" target="_blank">Join Meet</a>
+        </div>
     </div>
+    {% endblock %}
+    {% block content %}
+    <div class="w3-main">
+        <a href="{{ url_for('dashboard') }}" class="btn" style="margin-bottom:1rem;">← Back to Dashboard</a>
+        <div class="card">
+            <h2>Google Meet Room</h2>
+            <p>Click below to join a Google Meet video call for your interview or mentorship session.</p>
+            <div id="meet-link">https://meet.google.com/demo-room-{{ user_id|default('12345') }}</div>
+            <a href="https://meet.google.com/demo-room-{{ user_id|default('12345') }}" target="_blank">Join Meet</a>
+        </div>
+    </div>
+    {% endblock %}
 </body>
 
 </html>

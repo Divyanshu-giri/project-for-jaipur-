@@ -6,6 +6,8 @@
     <title>CareerCraft Assistant</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="/static/assistant.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    
 </head>
 
 <body>
@@ -36,6 +38,12 @@
                     <button id="send-btn" onclick="sendMsg()">Send</button>
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="w3-main">
+        <a href="{{ url_for('dashboard') }}" class="btn" style="margin-bottom:1rem;">← Back to Dashboard</a>
+        <div class="card">
+            <!-- Page-specific content here -->
         </div>
     </div>
     <script>
@@ -80,3 +88,10 @@
 </body>
 
 </html>
+{% extends "_layout.html" %}
+{% block content %}
+<div> ... </div>
+{% endblock %}
+{% block content %}
+<div> ... </div>
+{% endblock %}

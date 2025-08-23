@@ -6,16 +6,36 @@
     <title>Next Steps - CareerCraft</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="/static/next_steps.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    
 </head>
 
 <body>
-    <div>
-        <h2>🛣️ Recommended Career Paths</h2>
-        <ul id="career-list"></ul>
-        <button onclick="goToCourses()">View Courses</button>
-        <div>
+    {% extends "_layout.html" %}
+    {% block content %}
+    <div class="w3-main">
+        <a href="{{ url_for('dashboard') }}" class="btn" style="margin-bottom:1rem;">← Back to Dashboard</a>
+        <div class="card">
+            <h2>🛣️ Recommended Career Paths</h2>
+            <ul id="career-list"></ul>
+            <button onclick="goToCourses()">View Courses</button>
+            <div>
+            </div>
         </div>
     </div>
+    {% endblock %}
+    {% block content %}
+    <div class="w3-main">
+        <a href="{{ url_for('dashboard') }}" class="btn" style="margin-bottom:1rem;">← Back to Dashboard</a>
+        <div class="card">
+            <h2>🛣️ Recommended Career Paths</h2>
+            <ul id="career-list"></ul>
+            <button onclick="goToCourses()">View Courses</button>
+            <div>
+            </div>
+        </div>
+    </div>
+    {% endblock %}
 </body>
 
 </html>

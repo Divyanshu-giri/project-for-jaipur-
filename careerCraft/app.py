@@ -9,7 +9,7 @@ from job_board import get_jobs
 import re
 
 app = Flask(__name__)
-app.secret_key = 'career-craft-secret'  # Needed for flash messages
+app.secret_key = 'career-craft-secret'
 
 # Directory for uploaded profile images
 UPLOAD_FOLDER = os.path.join(os.path.dirname(__file__), 'static', 'profile_photos')
@@ -57,33 +57,26 @@ def roadmap():
 
 
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def login():
+    if request.method == 'POST':
+        # Example: check credentials (add your own logic)
+        email = request.form.get('email')
+        password = request.form.get('password')
+        if email and password:  # Replace with real authentication
+            session['user'] = email
+            return redirect(url_for('survey'))
+        else:
+            # Optionally flash an error message
+            return render_template('login.html', error="Invalid credentials")
     return render_template('login.html')
 
-# Step 1: After login, show career selection and survey
-@app.route('/survey', methods=['POST', 'GET'])
+@app.route('/survey', methods=['GET', 'POST'])
 def survey():
     if request.method == 'POST':
-        # Save user info from login
-        name = request.form.get('name', 'Student')
-        email = request.form.get('email', '')
-        number = request.form.get('number', '')
-        password = request.form.get('password', '')
-        # Validate mobile number: must be 10 digits
-        if not re.fullmatch(r"\d{10}", number):
-            flash('Please enter a valid mobile number with exactly 10 digits.')
-            return redirect(url_for('login'))
-        if not name.strip():
-            flash('Please provide your name to proceed.')
-            return redirect(url_for('login'))
-        if not password or len(password) < 6:
-            flash('Your password must be at least 6 characters long.')
-            return redirect(url_for('login'))
-        # Pass user info to survey page
-        return render_template('survey.html', name=name, email=email, number=number)
-    else:
-        return redirect(url_for('login'))
+        # Save survey data if needed
+        return redirect(url_for('resume_edit'))
+    return render_template('survey.html')
 
 # Step 2: Handle survey submission and show dashboard
 @app.route('/dashboard', methods=['POST'])
@@ -139,57 +132,17 @@ def get_roadmap_for_field(field):
 from flask import jsonify
 
 # Profile view and edit
-@app.route('/resume', methods=['GET', 'POST'])
+@app.route('/resume')
 def resume():
-    if 'profile' not in session:
-        # Initialize with user info if available
-        user = session.get('user', {"name": "Student", "email": "student@example.com"})
-        session['profile'] = {
-            "name": user.get('name', 'Student'),
-            "email": user.get('email', ''),
-            "photo": url_for('static', filename='profile_photos/default.jpg'),
-            "about": '',
-            "education": '',
-            "hobbies": '',
-            "skills": [],
-            "career": '',
-            "summary": ''
-        }
-    if request.method == 'POST':
-        profile = session['profile']
-        profile['name'] = request.form.get('name', profile['name'])
-        profile['email'] = request.form.get('email', profile['email'])
-        profile['about'] = request.form.get('about', profile['about'])
-        profile['education'] = request.form.get('education', profile['education'])
-        profile['hobbies'] = request.form.get('hobbies', profile['hobbies'])
-        profile['career'] = request.form.get('career', profile['career'])
-        profile['summary'] = request.form.get('summary', profile['summary'])
-        # Skills: add or remove
-        add_skill = request.form.get('add_skill')
-        del_skill = request.form.get('del_skill')
-        if add_skill:
-            if add_skill not in profile['skills']:
-                profile['skills'].append(add_skill)
-        if del_skill and del_skill in profile['skills']:
-            profile['skills'].remove(del_skill)
-        # Handle profile photo upload
-        if 'photo_upload' in request.files:
-            file = request.files['photo_upload']
-            if file and allowed_file(file.filename):
-                filename = secure_filename(file.filename)
-                ext = filename.rsplit('.', 1)[1].lower()
-                user_id = profile.get('email', 'user').replace('@', '_').replace('.', '_')
-                img_filename = f"{user_id}_profile.{ext}"
-                file_path = os.path.join(app.config['UPLOAD_FOLDER'], img_filename)
-                file.save(file_path)
-                profile['photo'] = url_for('profile_photo', filename=img_filename)
-        session['profile'] = profile
-    resume = generate_resume(session['profile'])
-    return render_template('resume.html', resume=resume, profile=session['profile'])
-# Serve uploaded profile photos
-@app.route('/static/profile_photos/<filename>')
-def profile_photo(filename):
-    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+    # Example: get user info from session or database
+    user_email = session.get('user', '')
+    # You can add more fields if you store them in session or elsewhere
+    resume = {
+        'name': 'Student',  # Replace with actual name if available
+        'email': user_email,
+        # Add other fields as needed
+    }
+    return render_template('resume.html', resume=resume)
 
 @app.route('/interview', methods=['POST'])
 def interview():
@@ -217,6 +170,17 @@ def courses():
     # For demo, show all Software Developer courses if no user context
     courses = get_courses_for_field('Software Developer')
     return render_template('courses.html', courses=courses)
+
+@app.route('/resume_edit', methods=['GET', 'POST'])
+def resume_edit():
+    if request.method == 'POST':
+        # ...save profile edits...
+        return redirect(url_for('welcome'))
+    return render_template('resume_edit.html')  # Create this template
+
+@app.route('/welcome')
+def welcome():
+    return render_template('welcome.html')  # Create this template
 
 if __name__ == '__main__':
     app.run(debug=True)

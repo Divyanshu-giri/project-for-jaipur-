@@ -1,16 +1,8 @@
-{% import '_layout.html' as layout %}
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <title>Progress - CareerCraft</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-
-<body>
-    {{ layout.header('Progress') }}
-    <div>
+{% extends "_layout.html" %}
+{% block content %}
+<div class="w3-main">
+    <a href="{{ url_for('dashboard') }}" class="btn" style="margin-bottom:1rem;">← Back to Dashboard</a>
+    <div class="card">
         <h2>📈 Your Progress</h2>
         <p><strong>XP:</strong> {{ progress.xp }}</p>
         <p><strong>Level:</strong> {{ progress.level }}</p>
@@ -21,7 +13,21 @@
             {% endfor %}
         </div>
     </div>
-    {{ layout.footer() }}
-</body>
-
-</html>
+</div>
+{% endblock %}
+{% block content %}
+<div class="w3-main">
+    <a href="{{ url_for('dashboard') }}" class="btn" style="margin-bottom:1rem;">← Back to Dashboard</a>
+    <div class="card">
+        <h2>📈 Your Progress</h2>
+        <p><strong>XP:</strong> {{ progress.xp }}</p>
+        <p><strong>Level:</strong> {{ progress.level }}</p>
+        <div>
+            <strong>Badges:</strong>
+            {% for badge in progress.badges %}
+            <span>🏅 {{ badge }}</span>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

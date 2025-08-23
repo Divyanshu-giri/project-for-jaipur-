@@ -1,39 +1,39 @@
-{% import '_layout.html' as layout %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>CareerCraft Login</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<body>
-    {{ layout.header('Login') }}
-    <div>
-        <div>
-            <div>🎓</div>
-            <h1>CareerCraft</h1>
-            <p>Career Guidance & Skill Development Platform</p>
-        </div>
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-        <ul>
-            {% for message in messages %}
-            <li>{{ message }}</li>
-            {% endfor %}
-        </ul>
-        {% endif %}
-        {% endwith %}
-        <form action="/survey" method="POST">
-            <input type="text" name="name" placeholder="Your Name" required>
-            <input type="email" name="email" placeholder="Email" required>
-            <input type="text" name="number" placeholder="Phone Number (10 digits)" pattern="\d{10}" maxlength="10" required>
-            <input type="password" name="password" placeholder="Password (min 6 chars)" minlength="6" required>
-            <button type="submit">Start</button>
+{% extends "_layout.html" %}
+{% block content %}
+<div class="w3-main">
+    <a href="{{ url_for('dashboard') }}" class="btn" style="margin-bottom:1rem;">← Back to Dashboard</a>
+    <div class="card form-card">
+        <h2 class="card-title">Login to CareerCraft</h2>
+        <form method="POST" autocomplete="off">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" required>
+            </div>
+            <button type="submit" class="btn btn-block">Login</button>
         </form>
-        <div>
-            <span>💡</span> Empower your future with smart guidance!
-        </div>
     </div>
-    {{ layout.footer() }}
-</body>
-</html>
+</div>
+{% endblock %}
+{% block content %}
+<div class="w3-main">
+    <a href="{{ url_for('dashboard') }}" class="btn" style="margin-bottom:1rem;">← Back to Dashboard</a>
+    <div class="card form-card">
+        <h2 class="card-title">Login to CareerCraft</h2>
+        <form method="POST" autocomplete="off">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" required>
+            </div>
+            <button type="submit" class="btn btn-block">Login</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

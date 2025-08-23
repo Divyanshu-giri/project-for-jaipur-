@@ -1,25 +1,31 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
+    <title>CareerCraft</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>layout</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 
 <body>
-    {% macro header(title) %}
-    <header>
-        <a href="{{ url_for('dashboard') }}" class="site-title career-green">CareerCraft</a>
-        <span>{{ title }}</span>
-    </header>
-    {% endmacro %}
-
-    {% macro footer() %}
-    <footer>
-        <span>&copy; 2025 CareerCraft. All rights reserved.</span>
-    </footer>
-    {% endmacro %}
+    <div class="w3-topbar">
+        <span class="logo">CareerCraft</span>
+        <span class="user">{% if session.get('user') %}Welcome, {{ session.user }}{% endif %}</span>
+    </div>
+    <div class="w3-sidebar">
+        <a href="{{ url_for('dashboard') }}">🏠 Dashboard</a>
+        <a href="{{ url_for('resume') }}">👤 Profile</a>
+        <a href="{{ url_for('mentors') }}">👥 Mentors</a>
+        <a href="{{ url_for('progress') }}">📈 Progress</a>
+        <a href="{{ url_for('jobs') }}">💼 Jobs</a>
+        <a href="{{ url_for('courses') }}">🎓 Courses</a>
+        <a href="{{ url_for('roadmap') }}">🗺️ Roadmap</a>
+        <a href="{{ url_for('meet') }}">🎥 Google Meet</a>
+        <a href="{{ url_for('assistant') }}">🤖 AI Assistant</a>
+    </div>
+    {% block content %}
+    {% endblock %}
 </body>
 
 </html>

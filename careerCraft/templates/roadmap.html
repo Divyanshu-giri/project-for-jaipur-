@@ -1,28 +1,12 @@
-{% import '_layout.html' as layout %}
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <title>Roadmap - CareerCraft</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-
-<body>
-    {{ layout.header('Roadmap') }}
-    <div>
-        <h2>🗺️ Roadmap</h2>
-        {% if roadmap %}
-        <ul>
-            {% for step in roadmap %}
-            <li>{{ step }}</li>
-            {% endfor %}
-        </ul>
-        {% else %}
-        <p>No roadmap found for this field.</p>
-        {% endif %}
+{% extends "_layout.html" %}
+{% block content %}
+<div class="w3-main">
+    <a href="{{ url_for('dashboard') }}" class="btn" style="margin-bottom:1rem;">← Back to Dashboard</a>
+    <div class="card">
+        <!-- Page-specific content here -->
     </div>
-    {{ layout.footer() }}
-</body>
-
-</html>
+</div>
+{% endblock %}
+{% block content %}
+<div> ... </div>
+{% endblock %}
