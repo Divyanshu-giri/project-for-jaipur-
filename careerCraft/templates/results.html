@@ -5,21 +5,18 @@
     <meta charset="UTF-8">
     <title>Your Results - CareerCraft</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 
-<body style="background: #f4f8fb;">
-    <div class="results-box">
-        <h2 style="color:#2d3e50;">📊 Your Skill Score: {{ score }}</h2>
+<body>
+    <div>
+        <h2>📊 Your Skill Score: {{ score }}</h2>
         <p>Based on your responses, we recommend exploring:</p>
         <ul>
             <li>🧠 AI & Data Science</li>
             <li>💻 Web Development</li>
             <li>📢 Digital Marketing</li>
         </ul>
-        <a href="/next-steps"
-            style="display:inline-block; margin-top:18px; color:#2d3e50; text-decoration:underline;">Next Steps
-            &rarr;</a>
+        <a href="/next-steps">Next Steps &rarr;</a>
     </div>
 </body>
 

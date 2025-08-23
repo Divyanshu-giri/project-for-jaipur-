@@ -5,19 +5,15 @@
     <meta charset="UTF-8">
     <title>CareerCraft Dashboard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <script src="/static/dashboard.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-
 </head>
 
-
-<body style="background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%); min-height:100vh; overflow-x:hidden;">
-    <div class="w3-topbar" style="background:rgba(40,42,53,0.95);backdrop-filter:blur(4px);">
-        <span class="logo animate__animated animate__fadeInDown">CareerCraft</span>
-        <span class="user animate__animated animate__fadeInRight">Welcome, {{ resume.get('name', 'Student') }}</span>
+<body>
+    <div class="w3-topbar">
+        <span class="logo">CareerCraft</span>
+        <span class="user">Welcome, {{ resume.get('name', 'Student') }}</span>
     </div>
-    <div class="w3-sidebar" style="background:rgba(255,255,255,0.97);backdrop-filter:blur(2px);">
+    <div class="w3-sidebar">
         <a href="{{ url_for('dashboard') }}" class="active">🏠 Dashboard</a>
         <a href="{{ url_for('resume') }}">👤 Profile</a>
         <a href="{{ url_for('mentors') }}">👥 Mentors</a>
@@ -29,19 +25,17 @@
         <a href="/assistant" target="_blank">🤖 AI Assistant</a>
     </div>
     <div class="w3-main">
-        <div
-            style="margin:60px auto;max-width:650px;text-align:center;background:rgba(255,255,255,0.93);border-radius:22px;padding:48px 36px;box-shadow:0 4px 32px #b0c4de;position:relative;overflow:hidden;">
-            <h1 class="animate__animated animate__fadeInUp"
-                style="color:#04AA6D;font-size:2.5rem;margin-bottom:18px;letter-spacing:1px;">Welcome to CareerCraft!
-            </h1>
-            <p class="animate__animated animate__fadeIn" style="font-size:1.25rem;color:#2d3e50;margin-bottom:24px;">
+        <div>
+            <h1>Welcome to CareerCraft!</h1>
+            <p>
                 CareerCraft is your all-in-one career guidance and skill development platform. Explore personalized
                 roadmaps, connect with mentors, track your progress, discover jobs, and access curated courses—all in
-                one place. Start your journey to a brighter future today!</p>
+                one place. Start your journey to a brighter future today!
+            </p>
             
             <!-- Display User Information -->
-            <div style="margin-top:32px; text-align:left;">
-                <h3 style="color:#2d3e50;">Your Profile Summary</h3>
+            <div>
+                <h3>Your Profile Summary</h3>
                 <p><strong>Name:</strong> {{ resume.name }}</p>
                 <p><strong>Email:</strong> {{ resume.email }}</p>
                 <p><strong>Career Goal:</strong> {{ resume.career }}</p>
@@ -50,98 +44,40 @@
             </div>
 
             <!-- Display Progress -->
-            <div style="margin-top:32px; text-align:left;">
-                <h3 style="color:#2d3e50;">Your Progress</h3>
+            <div>
+                <h3>Your Progress</h3>
                 <p><strong>Level:</strong> {{ progress.level }}</p>
                 <p><strong>XP:</strong> {{ progress.xp }}</p>
                 <p><strong>Badges:</strong> {{ progress.badges|join(', ') }}</p>
             </div>
 
             <!-- Quick Stats -->
-            <div style="margin-top:32px; display: flex; justify-content: space-around;">
-                <div style="text-align: center;">
-                    <h4 style="color:#04AA6D;">{{ mentors|length }}</h4>
+            <div>
+                <div>
+                    <h4>{{ mentors|length }}</h4>
                     <p>Available Mentors</p>
                 </div>
-                <div style="text-align: center;">
-                    <h4 style="color:#3b82f6;">{{ jobs|length }}</h4>
+                <div>
+                    <h4>{{ jobs|length }}</h4>
                     <p>Job Opportunities</p>
                 </div>
-                <div style="text-align: center;">
-                    <h4 style="color:#ff9800;">{{ courses|length }}</h4>
+                <div>
+                    <h4>{{ courses|length }}</h4>
                     <p>Recommended Courses</p>
                 </div>
             </div>
 
-            <div style="margin-top:32px;">
-                <h3 style="color:#2d3e50;">Get Started</h3>
-                <p style="color:#555;">Explore your personalized career roadmap, connect with mentors, or start practicing interview questions!</p>
-                <div style="margin-top:16px;">
-                    <a href="{{ url_for('roadmap') }}" style="margin-right:10px;" class="btn">View Roadmap</a>
-                    <a href="{{ url_for('mentors') }}" style="margin-right:10px;" class="btn">Find Mentors</a>
-                    <a href="/interview" class="btn">Practice Interview</a>
+            <div>
+                <h3>Get Started</h3>
+                <p>Explore your personalized career roadmap, connect with mentors, or start practicing interview questions!</p>
+                <div>
+                    <a href="{{ url_for('roadmap') }}">View Roadmap</a>
+                    <a href="{{ url_for('mentors') }}">Find Mentors</a>
+                    <a href="/interview">Practice Interview</a>
                 </div>
-            </div>
-
-            <div class="animated-bg-circles">
-                <div class="circle" style="top:10%;left:5%;background:#04AA6D;opacity:0.12;"></div>
-                <div class="circle" style="top:70%;left:80%;background:#2d3e50;opacity:0.10;"></div>
-                <div class="circle" style="top:50%;left:60%;background:#ffd700;opacity:0.13;"></div>
             </div>
         </div>
     </div>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-    <style>
-        .animated-bg-circles {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        .animated-bg-circles .circle {
-            position: absolute;
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            filter: blur(2px);
-            animation: float 7s ease-in-out infinite alternate;
-        }
-
-        @keyframes float {
-            0% {
-                transform: translateY(0) scale(1);
-            }
-
-            100% {
-                transform: translateY(-30px) scale(1.08);
-            }
-        }
-
-        .btn {
-            display: inline-block;
-            background: linear-gradient(90deg, var(--green), var(--blue));
-            color: var(--black);
-            border: none;
-            border-radius: 6px;
-            padding: 12px 24px;
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-        }
-
-        .btn:hover {
-            background: linear-gradient(90deg, var(--orange), var(--blue));
-            color: var(--white);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        }
-    </style>
     <script src="{{ url_for('static', filename='dashboard.js') }}"></script>
 </body>
 

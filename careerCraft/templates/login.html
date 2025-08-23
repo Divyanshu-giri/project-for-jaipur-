@@ -5,44 +5,20 @@
     <meta charset="UTF-8">
     <title>CareerCraft Login</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="D:\project-for-jaipur-\careerCraft\static\styles.css">
-    <style>
-        .container {
-            background: var(--dark-black);
-            border-radius: 14px;
-            box-shadow: 0 4px 24px 0 rgba(30, 215, 96, 0.13);
-            padding: 2.5rem 2rem 2rem 2rem;
-            margin: 2rem auto;
-            max-width: 400px;
-            z-index: 1;
-            position: relative;
-        }
-
-        input[type="text"],
-        input[type="email"],
-        input[type="password"] {
-            margin-bottom: 1.1em;
-        }
-
-        button[type="submit"] {
-            width: 100%;
-            margin-top: 0.5em;
-        }
-    </style>
 </head>
 <body>
     {{ layout.header('Login') }}
-    <div class="container animated" style="max-width: 400px; margin-top: 5vh;">
-        <div style="text-align:center; margin-bottom:18px;">
-            <div style="font-size:2.5rem; color:var(--green); margin-bottom:8px;">🎓</div>
-            <h1 style="margin:0; color:var(--blue);">CareerCraft</h1>
-            <p style="color:var(--orange); margin-top:6px;">Career Guidance & Skill Development Platform</p>
+    <div>
+        <div>
+            <div>🎓</div>
+            <h1>CareerCraft</h1>
+            <p>Career Guidance & Skill Development Platform</p>
         </div>
         {% with messages = get_flashed_messages() %}
         {% if messages %}
-        <ul class="flashes">
+        <ul>
             {% for message in messages %}
-            <li style="color:var(--orange);">{{ message }}</li>
+            <li>{{ message }}</li>
             {% endfor %}
         </ul>
         {% endif %}
@@ -54,72 +30,10 @@
             <input type="password" name="password" placeholder="Password (min 6 chars)" minlength="6" required>
             <button type="submit">Start</button>
         </form>
-        <div style="margin-top:18px; text-align:center; color:var(--green); font-size:0.95rem;">
-            <span style="font-size:1.2em;">💡</span> Empower your future with smart guidance!
+        <div>
+            <span>💡</span> Empower your future with smart guidance!
         </div>
     </div>
     {{ layout.footer() }}
 </body>
-</html>
-
-<head>
-    <meta charset="UTF-8">
-    <title>CareerCraft Login</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <style>
-        .container {
-            background: var(--dark-black);
-            border-radius: 14px;
-            box-shadow: 0 4px 24px 0 rgba(30, 215, 96, 0.13);
-            padding: 2.5rem 2rem 2rem 2rem;
-            margin: 2rem auto;
-            max-width: 400px;
-            z-index: 1;
-            position: relative;
-        }
-
-        input[type="text"],
-        input[type="email"],
-        input[type="password"] {
-            margin-bottom: 1.1em;
-        }
-
-        button[type="submit"] {
-            width: 100%;
-            margin-top: 0.5em;
-        }
-    </style>
-</head>
-
-<body>
-    <div class="container animated" style="max-width: 400px; margin-top: 5vh;">
-        <div style="text-align:center; margin-bottom:18px;">
-            <div style="font-size:2.5rem; color:var(--green); margin-bottom:8px;">🎓</div>
-            <h1 style="margin:0; color:var(--blue);">CareerCraft</h1>
-            <p style="color:var(--orange); margin-top:6px;">Career Guidance & Skill Development Platform</p>
-        </div>
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-        <ul class="flashes">
-            {% for message in messages %}
-            <li style="color:var(--orange);">{{ message }}</li>
-            {% endfor %}
-        </ul>
-        {% endif %}
-        {% endwith %}
-        <form action="/survey" method="POST">
-            <input type="text" name="name" placeholder="Your Name" required>
-            <input type="email" name="email" placeholder="Email" required>
-            <input type="text" name="number" placeholder="Phone Number (10 digits)" pattern="\d{10}" maxlength="10"
-                required>
-            <input type="password" name="password" placeholder="Password (min 6 chars)" minlength="6" required>
-            <button type="submit">Start</button>
-        </form>
-        <div style="margin-top:18px; text-align:center; color:var(--green); font-size:0.95rem;">
-            <span style="font-size:1.2em;">💡</span> Empower your future with smart guidance!
-        </div>
-    </div>
-</body>
-
 </html>
