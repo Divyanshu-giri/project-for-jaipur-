@@ -5,8 +5,7 @@
     <meta charset="UTF-8">
     <title>CareerCraft Dashboard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/styles.css">
-    <link rel="stylesheet" href="/static/dashboard.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <script src="/static/dashboard.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 
@@ -39,10 +38,51 @@
                 CareerCraft is your all-in-one career guidance and skill development platform. Explore personalized
                 roadmaps, connect with mentors, track your progress, discover jobs, and access curated courses—all in
                 one place. Start your journey to a brighter future today!</p>
-            <div style="margin-top:32px;">
-                <h3 style="color:#2d3e50;">People</h3>
-                <p style="color:#555;">Meet mentors, connect with professionals, and grow your network!</p>
+            
+            <!-- Display User Information -->
+            <div style="margin-top:32px; text-align:left;">
+                <h3 style="color:#2d3e50;">Your Profile Summary</h3>
+                <p><strong>Name:</strong> {{ resume.name }}</p>
+                <p><strong>Email:</strong> {{ resume.email }}</p>
+                <p><strong>Career Goal:</strong> {{ resume.career }}</p>
+                <p><strong>Skills:</strong> {{ resume.skills|join(', ') }}</p>
+                <p><strong>Summary:</strong> {{ resume.summary }}</p>
             </div>
+
+            <!-- Display Progress -->
+            <div style="margin-top:32px; text-align:left;">
+                <h3 style="color:#2d3e50;">Your Progress</h3>
+                <p><strong>Level:</strong> {{ progress.level }}</p>
+                <p><strong>XP:</strong> {{ progress.xp }}</p>
+                <p><strong>Badges:</strong> {{ progress.badges|join(', ') }}</p>
+            </div>
+
+            <!-- Quick Stats -->
+            <div style="margin-top:32px; display: flex; justify-content: space-around;">
+                <div style="text-align: center;">
+                    <h4 style="color:#04AA6D;">{{ mentors|length }}</h4>
+                    <p>Available Mentors</p>
+                </div>
+                <div style="text-align: center;">
+                    <h4 style="color:#3b82f6;">{{ jobs|length }}</h4>
+                    <p>Job Opportunities</p>
+                </div>
+                <div style="text-align: center;">
+                    <h4 style="color:#ff9800;">{{ courses|length }}</h4>
+                    <p>Recommended Courses</p>
+                </div>
+            </div>
+
+            <div style="margin-top:32px;">
+                <h3 style="color:#2d3e50;">Get Started</h3>
+                <p style="color:#555;">Explore your personalized career roadmap, connect with mentors, or start practicing interview questions!</p>
+                <div style="margin-top:16px;">
+                    <a href="{{ url_for('roadmap') }}" style="margin-right:10px;" class="btn">View Roadmap</a>
+                    <a href="{{ url_for('mentors') }}" style="margin-right:10px;" class="btn">Find Mentors</a>
+                    <a href="/interview" class="btn">Practice Interview</a>
+                </div>
+            </div>
+
             <div class="animated-bg-circles">
                 <div class="circle" style="top:10%;left:5%;background:#04AA6D;opacity:0.12;"></div>
                 <div class="circle" style="top:70%;left:80%;background:#2d3e50;opacity:0.10;"></div>
@@ -79,6 +119,27 @@
             100% {
                 transform: translateY(-30px) scale(1.08);
             }
+        }
+
+        .btn {
+            display: inline-block;
+            background: linear-gradient(90deg, var(--green), var(--blue));
+            color: var(--black);
+            border: none;
+            border-radius: 6px;
+            padding: 12px 24px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background: linear-gradient(90deg, var(--orange), var(--blue));
+            color: var(--white);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
     </style>
     <script src="{{ url_for('static', filename='dashboard.js') }}"></script>

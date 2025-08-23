@@ -72,13 +72,13 @@ def survey():
         password = request.form.get('password', '')
         # Validate mobile number: must be 10 digits
         if not re.fullmatch(r"\d{10}", number):
-            flash('Mobile number must be exactly 10 digits.')
+            flash('Please enter a valid mobile number with exactly 10 digits.')
             return redirect(url_for('login'))
         if not name.strip():
-            flash('Name is required.')
+            flash('Please provide your name to proceed.')
             return redirect(url_for('login'))
         if not password or len(password) < 6:
-            flash('Password must be at least 6 characters.')
+            flash('Your password must be at least 6 characters long.')
             return redirect(url_for('login'))
         # Pass user info to survey page
         return render_template('survey.html', name=name, email=email, number=number)

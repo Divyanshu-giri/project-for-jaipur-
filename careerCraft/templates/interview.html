@@ -3,15 +3,13 @@
 
 <head>
     <title>AI Interview Simulator</title>
-    <link rel="stylesheet" href="/static/interview.css">
     <script src="/static/interview.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/styles.css">
-    <link rel="stylesheet" href="/static/layout.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     {% import '_layout.html' as layout %}
     {{ layout.header('Mock Interview') }}
-    
+
 </head>
 
 <body>

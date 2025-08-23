@@ -5,15 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>layout</title>
-    <link rel="stylesheet" href="/static/styles.css">
-    <link rel="stylesheet" href="/static/layout.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 
 <body>
     {% macro header(title) %}
     <header
-        style="background:#282A35;color:#fff;padding:18px 0 18px 32px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 8px #e0e0e0;">
-        <span style="font-size:1.5rem;font-weight:bold;letter-spacing:1px;color:#04AA6D;">CareerCraft</span>
+        style="background: var(--dark-black); color: var(--white); padding: 18px 0 18px 32px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);">
+        <a href="{{ url_for('dashboard') }}" class="site-title career-green">CareerCraft</a>
         <span style="font-size:1.1rem;color:#fff;">{{ title }}</span>
     </header>
     {% endmacro %}

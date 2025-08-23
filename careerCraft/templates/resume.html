@@ -7,15 +7,16 @@
     <title>Your Profile - CareerCraft</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='resume.css') }}">
 </head>
 
+
 <body>
+    <header>
+        <a href="{{ url_for('dashboard') }}" class="site-title">CareerCraft</a>
+    </header>
     {{ layout.header('Profile') }}
     <div class="resume-box animated">
-        <h2 style="color:var(--blue);margin-bottom:0.5em;text-align:center;">Your <span
-                style="color:var(--orange);">Profile</span>
-        </h2>
+        <h2 class="resume-header">Your Profile</h2>
         <hr style="border:0;border-top:1.5px solid var(--gray);margin-bottom:1.5em;">
         <form method="POST" enctype="multipart/form-data"
             style="width:100%;display:flex;flex-direction:column;align-items:center;gap:10px;">
@@ -105,6 +106,14 @@
             document.getElementById('setProfilePhotoBtn').style.display = 'none';
             alert('Profile photo will be updated after you save your profile.');
         }
+
+        // Change CareerCraft header color only on this page
+        document.addEventListener("DOMContentLoaded", function () {
+            var header = document.getElementById("careerCraftHeader");
+            if (header) {
+                header.style.color = "var(--green)";
+            }
+        });
     </script>
     {{ layout.footer() }}
 </body>
