@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>AI Interview Simulator</title>
+    <link rel="stylesheet" href="/static/interview.css">
+    <script src="/static/interview.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="stylesheet" href="/static/layout.css">
+    {% import '_layout.html' as layout %}
+    {{ layout.header('Mock Interview') }}
+    
+</head>
+
+<body>
+    <div class="interview-box">
+        <h2>Mock Interview</h2>
+        <div id="question-area"></div>
+        <textarea id="answer" placeholder="Type your answer here..."></textarea>
+        <button onclick="submitAnswer()">Submit</button>
+        <div id="feedback"></div>
+    </div>
+</body>
+
+</html>

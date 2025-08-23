@@ -1,0 +1,112 @@
+{% import '_layout.html' as layout %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Your Profile - CareerCraft</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='resume.css') }}">
+</head>
+
+<body>
+    {{ layout.header('Profile') }}
+    <div class="resume-box animated">
+        <h2 style="color:var(--blue);margin-bottom:0.5em;text-align:center;">Your <span
+                style="color:var(--orange);">Profile</span>
+        </h2>
+        <hr style="border:0;border-top:1.5px solid var(--gray);margin-bottom:1.5em;">
+        <form method="POST" enctype="multipart/form-data"
+            style="width:100%;display:flex;flex-direction:column;align-items:center;gap:10px;">
+            <div class="profile-photo-edit">
+                <img id="profilePhotoPreview" src="{{ profile.photo }}" alt="Profile Photo" class="profile-photo">
+                <label for="photo_upload" class="photo-upload-label" title="Change photo">
+                    <span>✎</span>
+                    <input type="file" name="photo_upload" id="photo_upload" accept="image/*" style="display:none;"
+                        onchange="previewProfilePhoto(event)">
+                </label>
+                <button type="button" id="setProfilePhotoBtn" style="display:none;margin-top:8px;width:100%;"
+                    onclick="setProfilePhoto()">Set as Profile Photo</button>
+            </div>
+            <div class="profile-field-row">
+                <label for="name">Name:</label>
+                <button type="button" onclick="toggleEdit('name')" class="edit-btn" title="Edit Name">✎</button>
+            </div>
+            <input type="text" name="name" id="name" value="{{ profile.name }}" readonly>
+            <div class="profile-field-row">
+                <label for="email">Email:</label>
+                <button type="button" onclick="toggleEdit('email')" class="edit-btn" title="Edit Email">✎</button>
+            </div>
+            <input type="email" name="email" id="email" value="{{ profile.email }}" readonly>
+            <label for="about">About:</label>
+            <textarea name="about" id="about" rows="2">{{ profile.about }}</textarea>
+            <label for="education">Education:</label>
+            <input type="text" name="education" id="education" value="{{ profile.education }}">
+            <label for="hobbies">Hobbies:</label>
+            <input type="text" name="hobbies" id="hobbies" value="{{ profile.hobbies }}">
+            <label for="career">Career Goal:</label>
+            <input type="text" name="career" id="career" value="{{ profile.career }}">
+            <label for="summary">Summary:</label>
+            <textarea name="summary" id="summary" rows="2">{{ profile.summary }}</textarea>
+            <div class="skills-list" style="width:100%;">
+                <strong>Skills:</strong>
+                <ul class="skills-ul">
+                    {% for skill in profile.skills %}
+                    <li>
+                        ✔️ {{ skill }}
+                        <button name="del_skill" value="{{ skill }}" class="del-skill-btn"
+                            title="Remove skill">✖</button>
+                    </li>
+                    {% endfor %}
+                </ul>
+                <div style="display:flex;gap:8px;">
+                    <input type="text" name="add_skill" placeholder="Add new skill" style="width:70%;">
+                    <button type="submit" style="background:var(--green);color:var(--black);width:28%;">Add
+                        Skill</button>
+                </div>
+            </div>
+            <button type="submit"
+                style="background:linear-gradient(90deg, var(--green), var(--blue));color:var(--black);width:100%;margin-top:18px;">Save
+                Profile</button>
+        </form>
+        <a href="{{ url_for('dashboard') }}"
+            style="display:inline-block; margin-top:18px; color:var(--green); text-decoration:underline;">&larr; Back to
+            Dashboard</a>
+    </div>
+    <script>
+        function toggleEdit(field) {
+            var input = document.getElementById(field);
+            if (input.hasAttribute('readonly')) {
+                input.removeAttribute('readonly');
+                input.focus();
+            } else {
+                input.setAttribute('readonly', 'readonly');
+            }
+        }
+
+        function previewProfilePhoto(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const img = document.getElementById('profilePhotoPreview');
+                img.src = e.target.result;
+                img.style.objectFit = 'cover';
+                img.style.width = '110px';
+                img.style.height = '110px';
+                document.getElementById('setProfilePhotoBtn').style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function setProfilePhoto() {
+            // This just hides the button after preview; actual save happens on form submit
+            document.getElementById('setProfilePhotoBtn').style.display = 'none';
+            alert('Profile photo will be updated after you save your profile.');
+        }
+    </script>
+    {{ layout.footer() }}
+</body>
+
+</html>

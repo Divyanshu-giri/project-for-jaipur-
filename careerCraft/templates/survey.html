@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Career Survey - CareerCraft</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Use only the main stylesheet for unified theming -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        /* THEME: Black, Green, Blue, Orange */
+        :root {
+            --black: #101014;
+            --dark-black: #18181c;
+            --green: #1ed760;
+            --blue: #3b82f6;
+            --orange: #ff9800;
+            --white: #eaeaea;
+            --gray: #23232a;
+        }
+
+        /* General body and backgrounds */
+        body {
+            background: var(--black) url('../bg img/survey.jpeg') no-repeat center center fixed;
+            background-size: cover;
+            color: var(--white);
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(16, 16, 20, 0.92);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Main containers and cards */
+        .container,
+        .survey-box,
+        .card,
+        .main-content,
+        .profile-box {
+            background: var(--dark-black);
+            border-radius: 12px;
+            box-shadow: 0 4px 24px 0 rgba(30, 215, 96, 0.08);
+            padding: 2rem;
+            margin: 2rem auto;
+            max-width: 600px;
+            z-index: 1;
+            position: relative;
+        }
+
+        .card {
+            border-left: 5px solid var(--green);
+            transition: box-shadow 0.2s, border-color 0.2s;
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 32px 0 rgba(59, 130, 246, 0.18);
+            border-left: 5px solid var(--blue);
+        }
+
+        /* Headings and section titles */
+        h1,
+        h2,
+        h3,
+        h4 {
+            color: var(--blue);
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+        }
+
+        h1 span,
+        h2 span,
+        h3 span {
+            color: var(--orange);
+        }
+
+        /* Buttons */
+        button,
+        .btn {
+            background: linear-gradient(90deg, var(--green), var(--blue));
+            color: var(--black);
+            border: none;
+            border-radius: 6px;
+            padding: 0.7em 1.5em;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 1em;
+            transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 8px 0 rgba(30, 215, 96, 0.12);
+        }
+
+        button:hover,
+        .btn:hover {
+            background: linear-gradient(90deg, var(--orange), var(--blue));
+            color: var(--white);
+        }
+
+        /* Inputs and selects */
+        input,
+        select,
+        textarea {
+            background: var(--gray);
+            color: var(--white);
+            border: 1px solid var(--green);
+            border-radius: 5px;
+            padding: 0.6em;
+            margin-top: 0.5em;
+            margin-bottom: 1em;
+            width: 100%;
+            font-size: 1em;
+            transition: border 0.2s;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border: 1.5px solid var(--blue);
+            outline: none;
+        }
+
+        /* Links */
+        a {
+            color: var(--blue);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        a:hover {
+            color: var(--orange);
+            text-decoration: underline;
+        }
+
+        /* Sidebar and navigation */
+        .sidebar {
+            background: var(--gray);
+            color: var(--white);
+            width: 220px;
+            min-height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            padding: 2rem 1rem;
+            z-index: 10;
+            box-shadow: 2px 0 12px 0 rgba(30, 215, 96, 0.08);
+        }
+
+        .sidebar a {
+            display: block;
+            color: var(--white);
+            padding: 0.8em 0;
+            border-left: 4px solid transparent;
+            transition: border 0.2s, color 0.2s;
+        }
+
+        .sidebar a.active,
+        .sidebar a:hover {
+            color: var(--green);
+            border-left: 4px solid var(--green);
+            background: rgba(30, 215, 96, 0.08);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--gray);
+            color: var(--green);
+            text-align: center;
+            padding: 1.2em 0;
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            font-size: 1em;
+            z-index: 20;
+            letter-spacing: 1px;
+        }
+
+        /* Animations and effects */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animated {
+            animation: fadeInUp 0.8s cubic-bezier(.23, 1.01, .32, 1) both;
+        }
+
+        /* Responsive */
+        @media (max-width: 700px) {
+
+            .container,
+            .survey-box,
+            .card,
+            .main-content,
+            .profile-box {
+                padding: 1rem;
+                margin: 1rem;
+                max-width: 98vw;
+            }
+
+            .sidebar {
+                width: 100vw;
+                min-height: unset;
+                position: static;
+                padding: 1rem 0.5rem;
+                box-shadow: none;
+            }
+
+            footer {
+                font-size: 0.9em;
+                padding: 0.7em 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="survey-box animated">
+        <h2><span>Career</span> & Interest Survey</h2>
+        <form action="/dashboard" method="POST">
+            <input type="hidden" name="name" value="{{ name }}">
+            <input type="hidden" name="email" value="{{ email }}">
+            <input type="hidden" name="number" value="{{ number }}">
+            <label for="career">Select your desired career:</label>
+            <select name="career" id="career" required>
+                <option value="Software Developer">Software Developer</option>
+                <option value="Data Scientist">Data Scientist</option>
+                <option value="Digital Marketer">Digital Marketer</option>
+                <option value="Graphic Designer">Graphic Designer</option>
+                <option value="Other">Other</option>
+            </select>
+            <label for="hobbies">Your hobbies & interests:</label>
+            <input type="text" name="hobbies" id="hobbies" placeholder="e.g. Coding, Drawing, Blogging" required>
+            <label for="field">Which field do you want to grow in?</label>
+            <input type="text" name="field" id="field" placeholder="e.g. AI, Web, Marketing" required>
+            <button type="submit">Continue</button>
+        </form>
+    </div>
+</body>
+
+</html>
