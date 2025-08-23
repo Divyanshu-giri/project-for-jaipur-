@@ -592,3 +592,333 @@ hr {
 .message {
     animation: messageSlideIn 0.3s ease-out;
 }
+
+/* Enhanced Dashboard Styles */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+.dashboard-card {
+    background: linear-gradient(135deg, #1a1a1a 0%, #222 100%);
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 2px solid #1e90ff;
+    box-shadow: 0 4px 20px rgba(30, 144, 255, 0.2);
+    transition: all 0.3s ease;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(30, 144, 255, 0.3);
+    border-color: #00ff99;
+}
+
+.card-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.progress-score {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #00ff99;
+    text-align: center;
+    margin: 1rem 0;
+}
+
+.level-badge {
+    background: linear-gradient(135deg, #ff9800, #ff6b00);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: 600;
+    text-align: center;
+    display: inline-block;
+    margin: 0.5rem auto;
+}
+
+.badges-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.badge {
+    background: rgba(0, 255, 153, 0.2);
+    color: #00ff99;
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    font-size: 0.9rem;
+    border: 1px solid #00ff99;
+}
+
+.career-highlight {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #ff9800;
+    text-align: center;
+    margin: 1rem 0;
+}
+
+.next-steps {
+    list-style: none;
+    padding: 0;
+}
+
+.next-steps li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #333;
+}
+
+.next-steps li:last-child {
+    border-bottom: none;
+}
+
+.btn-small {
+    background: linear-gradient(90deg, #00ff99 0%, #1e90ff 100%);
+    color: #181818;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+.btn-small:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(0, 255, 153, 0.3);
+}
+
+/* Jobs Grid */
+.jobs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.job-card {
+    background: #222;
+    border-radius: 10px;
+    padding: 1.5rem;
+    border: 1px solid #1e90ff;
+    transition: all 0.3s ease;
+}
+
+.job-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 25px rgba(30, 144, 255, 0.25);
+    border-color: #00ff99;
+}
+
+.job-card h4 {
+    color: #1e90ff;
+    margin-bottom: 0.5rem;
+}
+
+.company {
+    color: #ff9800;
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+}
+
+.location {
+    color: #00ff99;
+    margin-bottom: 1rem;
+}
+
+.job-tags {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.tag {
+    background: rgba(30, 144, 255, 0.2);
+    color: #1e90ff;
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    border: 1px solid #1e90ff;
+}
+
+/* Courses Grid */
+.courses-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.course-card {
+    background: #222;
+    border-radius: 10px;
+    padding: 1.5rem;
+    border: 1px solid #00ff99;
+    transition: all 0.3s ease;
+}
+
+.course-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 25px rgba(0, 255, 153, 0.25);
+    border-color: #ff9800;
+}
+
+.course-card h4 {
+    color: #00ff99;
+    margin-bottom: 0.5rem;
+}
+
+/* Actions Grid */
+.actions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.action-card {
+    background: #222;
+    border-radius: 10px;
+    padding: 1.5rem;
+    border: 2px solid transparent;
+    text-decoration: none;
+    color: #e0e0e0;
+    transition: all 0.3s ease;
+    display: block;
+}
+
+.action-card:hover {
+    background: linear-gradient(135deg, #222 0%, #1a1a1a 100%);
+    border-color: #ff9800;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 25px rgba(255, 152, 0, 0.25);
+    color: #fff;
+}
+
+.action-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.action-card h4 {
+    color: #1e90ff;
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+
+.action-card p {
+    color: #00ff99;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+/* Activity Timeline */
+.activity-timeline {
+    margin-top: 1.5rem;
+}
+
+.activity-item {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    border-left: 3px solid #00ff99;
+    margin-bottom: 1rem;
+    background: #222;
+    border-radius: 8px;
+}
+
+.activity-icon {
+    font-size: 1.5rem;
+    margin-right: 1rem;
+    flex-shrink: 0;
+}
+
+.activity-content p {
+    margin: 0;
+    color: #e0e0e0;
+    font-weight: 500;
+}
+
+.activity-time {
+    color: #00ff99;
+    font-size: 0.8rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .jobs-grid,
+    .courses-grid,
+    .actions-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .action-card {
+        text-align: center;
+    }
+}
+
+/* Loading Animation */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.loading {
+    animation: pulse 1.5s infinite;
+}
+
+/* Success Animation */
+@keyframes success {
+    0% { transform: scale(0.8); opacity: 0; }
+    50% { transform: scale(1.1); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.success {
+    animation: success 0.5s ease-out;
+}
+
+/* Tooltip */
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip .tooltip-text {
+    visibility: hidden;
+    width: 120px;
+    background: #000;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.tooltip:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}

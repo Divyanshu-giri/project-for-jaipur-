@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>CareerCraft Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="{{ url_for('static', filename='dashboard.js') }}"></script>
+</head>
+<body>
+    {% extends "_layout.html" %}
+    {% block content %}
+    <div class="w3-main">
+        <!-- Welcome Section -->
+        <div class="card">
+            <h1>🎯 Welcome to CareerCraft!</h1>
+            <p class="text-green">Your personalized career development platform</p>
+            <div class="welcome-actions">
+                <button class="btn-small" onclick="quickTour()">🚀 Quick Tour</button>
+                <button class="btn-small" onclick="showTips()">💡 Get Tips</button>
+            </div>
+        </div>
+
+        <!-- Quick Stats Overview -->
+        <div class="dashboard-grid">
+            <!-- Progress Card -->
+            <div class="dashboard-card">
+                <div class="card-icon">📊</div>
+                <h3>Your Progress</h3>
+                <div class="progress-score">{{ progress.xp }} XP</div>
+                <p class="level-badge">{{ progress.level }}</p>
+                <div class="badges-container">
+                    {% for badge in progress.badges %}
+                    <span class="badge">🏅 {{ badge }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Career Focus -->
+            <div class="dashboard-card">
+                <div class="card-icon">🎯</div>
+                <h3>Career Focus</h3>
+                <p class="career-highlight">{{ field }}</p>
+                <p>Based on your skills and interests</p>
+                <a href="{{ url_for('roadmap') }}" class="btn-small">View Roadmap</a>
+            </div>
+
+            <!-- Next Steps -->
+            <div class="dashboard-card">
+                <div class="card-icon">🚀</div>
+                <h3>Next Steps</h3>
+                <ul class="next-steps">
+                    <li>📝 Complete your profile</li>
+                    <li>💼 Apply to recommended jobs</li>
+                    <li>🤝 Connect with mentors</li>
+                    <li>📚 Start learning courses</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Recommended Jobs Section -->
+        <div class="card">
+            <h2>💼 Recommended Jobs for You</h2>
+            <div class="jobs-grid">
+                {% for job in jobs %}
+                <div class="job-card">
+                    <h4>{{ job.title }}</h4>
+                    <p class="company">{{ job.company }}</p>
+                    <p class="location">{{ job.location }}</p>
+                    <div class="job-tags">
+                        <span class="tag">{{ job.domain }}</span>
+                        <span class="tag">Entry Level</span>
+                    </div>
+                    <button class="btn-small" onclick="showApplicationModal('{{ job.title }}')">Apply Now</button>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Learning Resources -->
+        <div class="card">
+            <h2>📚 Learning Resources</h2>
+            <div class="courses-grid">
+                {% for course in courses %}
+                <div class="course-card" onclick="trackCourseProgress('{{ course.title }}')">
+                    <h4>{{ course.title }}</h4>
+                    <p>YouTube Tutorial</p>
+                    <a href="{{ course.url }}" target="_blank" class="btn-small">Watch Now</a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="card">
+            <h2>⚡ Quick Actions</h2>
+            <div class="actions-grid">
+                <a href="{{ url_for('resume') }}" class="action-card">
+                    <div class="action-icon">📄</div>
+                    <h4>View Resume</h4>
+                    <p>Review and edit your professional profile</p>
+                </a>
+                
+                <a href="{{ url_for('mentors') }}" class="action-card">
+                    <div class="action-icon">👥</div>
+                    <h4>Find Mentors</h4>
+                    <p>Connect with experienced professionals</p>
+                </a>
+                
+                <a href="{{ url_for('interview') }}" class="action-card">
+                    <div class="action-icon">🎤</div>
+                    <h4>Practice Interview</h4>
+                    <p>Prepare with mock interviews</p>
+                </a>
+                
+                <a href="{{ url_for('assistant') }}" class="action-card">
+                    <div class="action-icon">🤖</div>
+                    <h4>AI Assistant</h4>
+                    <p>Get career guidance 24/7</p>
+                </a>
+            </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="card">
+            <h2>📈 Recent Activity</h2>
+            <div class="activity-timeline">
+                <div class="activity-item">
+                    <div class="activity-icon">✅</div>
+                    <div class="activity-content">
+                        <p>Completed career assessment</p>
+                        <span class="activity-time">2 hours ago</span>
+                    </div>
+                </div>
+                <div class="activity-item">
+                    <div class="activity-icon">📄</div>
+                    <div class="activity-content">
+                        <p>Resume generated successfully</p>
+                        <span class="activity-time">1 hour ago</span>
+                    </div>
+                </div>
+                <div class="activity-item">
+                    <div class="activity-icon">👥</div>
+                    <div class="activity-content">
+                        <p>Matched with 3 potential mentors</p>
+                        <span class="activity-time">30 minutes ago</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock %}
+</body>
+</html>
+
+<style>
+.welcome-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+}
+
+.course-card {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.course-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 25px rgba(0, 255, 153, 0.3);
+}
+</style>

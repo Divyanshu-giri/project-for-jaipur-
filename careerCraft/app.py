@@ -74,13 +74,31 @@ def login():
 @app.route('/survey', methods=['GET', 'POST'])
 def survey():
     if request.method == 'POST':
-        # Save survey data if needed
-        return redirect(url_for('resume_edit'))
-    return render_template('survey.html')
+        # Save survey data to session
+        name = request.form.get('name', 'Student')
+        email = request.form.get('email', '')
+        number = request.form.get('number', '')
+        career = request.form.get('career', 'Software Developer')
+        hobbies = request.form.get('hobbies', '')
+        field = request.form.get('field', career)
+        
+        # Store user data in session
+        session['user_data'] = {
+            'name': name,
+            'email': email,
+            'number': number,
+            'career': career,
+            'hobbies': hobbies,
+            'field': field,
+            'score': 13  # Default score for demo
+        }
+        
+        return redirect(url_for('dashboard'))
+    return render_template('survey_enhanced.html')
 
 # Step 2: Handle survey submission and show dashboard
 @app.route('/dashboard', methods=['POST'])
-def dashboard():
+def dashboard_post():
     name = request.form.get('name', 'Student')
     email = request.form.get('email', '')
     number = request.form.get('number', '')
@@ -102,7 +120,30 @@ def dashboard():
     # For demo: add YouTube links and job ready checklist
     courses = get_courses_for_field(field)
     roadmap = get_roadmap_for_field(field)
-    return render_template("dashboard.html", resume=resume, mentors=mentors, progress=progress, jobs=jobs, questions=questions, courses=courses, roadmap=roadmap, field=field)
+    return render_template("dashboard_enhanced.html", resume=resume, mentors=mentors, progress=progress, jobs=jobs, questions=questions, courses=courses, roadmap=roadmap, field=field)
+
+# GET route for dashboard navigation
+@app.route('/dashboard', methods=['GET'])
+def dashboard():
+    # For GET requests, show a basic dashboard or redirect to survey if no data
+    # You can store user data in session and retrieve it here
+    if 'user_data' in session:
+        user_data = session['user_data']
+        resume = generate_resume(user_data)
+        mentors = match_mentors(user_data.get('score', 13), [user_data.get('field', 'Software Developer')])
+        progress = calculate_progress({
+            "quiz_completed": True,
+            "resume_generated": True,
+            "mentor_connected": True
+        })
+        jobs = get_jobs(user_data.get('score', 13), [user_data.get('field', 'Software Developer')])
+        questions = generate_questions(user_data.get('career', 'Software Developer'))
+        courses = get_courses_for_field(user_data.get('field', 'Software Developer'))
+        roadmap = get_roadmap_for_field(user_data.get('field', 'Software Developer'))
+        return render_template("dashboard_enhanced.html", resume=resume, mentors=mentors, progress=progress, jobs=jobs, questions=questions, courses=courses, roadmap=roadmap, field=user_data.get('field', 'Software Developer'))
+    else:
+        # If no user data, redirect to survey
+        return redirect(url_for('survey'))
 
 # Helper: Dummy course and roadmap data
 def get_courses_for_field(field):
