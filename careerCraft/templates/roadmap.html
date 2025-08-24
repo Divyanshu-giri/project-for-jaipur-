@@ -2,8 +2,107 @@
 {% block content %}
 <div class="w3-main">
     <a href="{{ url_for('dashboard') }}" class="btn" style="margin-bottom:1rem;">← Back to Dashboard</a>
+    
     <div class="card">
-        <!-- Page-specific content here -->
+        <h1>🗺️ Career Roadmap</h1>
+        
+        <!-- Field Selection Dropdown -->
+        <div class="form-group" style="margin-bottom: 2rem;">
+            <label for="fieldSelect">Select Career Field:</label>
+            <select id="fieldSelect" class="form-control" onchange="updateRoadmap(this.value)">
+                {% for field in available_fields %}
+                <option value="{{ field }}" {% if field == selected_field %}selected{% endif %}>
+                    {{ field }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- Roadmap Display -->
+        <div class="roadmap-container">
+            <h2>Your {{ selected_field }} Roadmap</h2>
+            
+            {% if roadmap %}
+            <div class="roadmap-steps">
+                {% for step in roadmap %}
+                <div class="roadmap-step">
+                    <div class="step-number">{{ loop.index }}</div>
+                    <div class="step-content">
+                        <h3>{{ step }}</h3>
+                        <p>Complete this step to progress in your career journey</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="no-roadmap">
+                <p>No roadmap available for this field yet. Check back soon!</p>
+            </div>
+            {% endif %}
+        </div>
     </div>
 </div>
+
+<script>
+function updateRoadmap(field) {
+    // Update the URL with the selected field parameter
+    window.location.href = "{{ url_for('roadmap') }}?field=" + encodeURIComponent(field);
+}
+</script>
+
+<style>
+.roadmap-steps {
+    margin-top: 2rem;
+}
+
+.roadmap-step {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: #222;
+    border-radius: 8px;
+    border-left: 4px solid #00ff99;
+}
+
+.step-number {
+    background: #00ff99;
+    color: #000;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    margin-right: 1rem;
+    flex-shrink: 0;
+}
+
+.step-content h3 {
+    margin: 0 0 0.5rem 0;
+    color: #fff;
+}
+
+.step-content p {
+    margin: 0;
+    color: #ccc;
+    font-size: 0.9rem;
+}
+
+.no-roadmap {
+    text-align: center;
+    padding: 2rem;
+    color: #ccc;
+}
+
+.form-control {
+    padding: 0.5rem;
+    border: 1px solid #444;
+    border-radius: 4px;
+    background: #222;
+    color: #fff;
+    font-size: 1rem;
+}
+</style>
 {% endblock %}
