@@ -1,21 +1,294 @@
 {% extends "_layout.html" %}
+
 {% block content %}
 <div class="w3-main">
-    <div class="card form-card">
+    <div class="card">
         <h2 class="card-title">Edit Your Profile</h2>
-        <form method="POST" autocomplete="off">
-            <!-- Add profile fields here -->
-            <div class="form-group">
-                <label for="name">Name</label>
-                <input type="text" name="name" id="name" required>
+        <hr>
+        <form method="POST" enctype="multipart/form-data" action="{{ url_for('save_profile') }}">
+            <!-- Profile Photo Section -->
+            <div class="profile-photo-container">
+                <div class="profile-photo-wrapper">
+                    <img id="profilePhotoPreview" 
+                         src="{{ url_for('static', filename='profile_photos/default.jpg') }}" 
+                         alt="Profile Photo" 
+                         class="profile-photo">
+                    <label for="photo_upload" class="photo-upload-label" title="Change photo">
+                        <span class="edit-icon">✎</span>
+                        <input type="file" name="photo_upload" id="photo_upload" accept="image/*"
+                            onchange="previewProfilePhoto(event)" style="display: none;">
+                    </label>
+                </div>
+                <button type="button" id="setProfilePhotoBtn" class="btn-small" onclick="setProfilePhoto()">Set as Profile Photo</button>
             </div>
-            <div class="form-group">
-                <label for="bio">Bio</label>
-                <textarea name="bio" id="bio"></textarea>
+
+            <!-- Profile Form Fields -->
+            <div class="profile-form-grid">
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" name="name" id="name" value="{{ resume.name }}" placeholder="Your full name">
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" name="email" id="email" value="{{ resume.email }}" placeholder="Your email address">
+                </div>
+
+                <div class="form-group">
+                    <label for="about">About:</label>
+                    <textarea name="about" id="about" rows="3" placeholder="Tell us about yourself...">{{ resume.about }}</textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="education">Education:</label>
+                    <input type="text" name="education" id="education" value="{{ resume.education }}" placeholder="Your educational background">
+                </div>
+
+                <div class="form-group">
+                    <label for="hobbies">Hobbies:</label>
+                    <input type="text" name="hobbies" id="hobbies" value="{{ resume.hobbies }}" placeholder="Your hobbies and interests">
+                </div>
+
+                <div class="form-group">
+                    <label for="career">Career Goal:</label>
+                    <input type="text" name="career" id="career" value="{{ resume.career }}" placeholder="Your career aspirations">
+                </div>
+
+                <div class="form-group">
+                    <label for="summary">Professional Summary:</label>
+                    <textarea name="summary" id="summary" rows="3" placeholder="Brief professional summary...">{{ resume.summary }}</textarea>
+                </div>
             </div>
-            <!-- Add more fields as needed -->
-            <button type="submit" class="btn btn-block">Save Profile</button>
+
+            <!-- Skills Section -->
+            <div class="skills-section">
+                <h3>Skills</h3>
+                <div class="skills-list">
+                    {% for skill in resume.skills %}
+                    <span class="skill-tag">
+                        {{ skill }}
+                        <button type="submit" name="del_skill" value="{{ skill }}" class="remove-skill" title="Remove skill">×</button>
+                    </span>
+                    {% endfor %}
+                </div>
+                <div class="add-skill">
+                    <input type="text" name="add_skill" placeholder="Add new skill" class="skill-input">
+                    <button type="submit" class="btn-small">Add Skill</button>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="profile-actions">
+                <button type="submit" class="btn btn-primary">Save Profile</button>
+                <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">← Back to Dashboard</a>
+                <a href="{{ url_for('view_profile_card') }}" class="btn btn-outline">View Profile Card</a>
+            </div>
         </form>
     </div>
 </div>
+
+<script>
+    function previewProfilePhoto(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            const img = document.getElementById('profilePhotoPreview');
+            img.src = e.target.result;
+            document.getElementById('setProfilePhotoBtn').style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+    }
+
+    function setProfilePhoto() {
+        document.getElementById('setProfilePhotoBtn').style.display = 'none';
+        alert('Profile photo will be updated when you save your profile.');
+    }
+
+    // Auto-hide set photo button if no new photo selected
+    document.addEventListener('DOMContentLoaded', function() {
+        const photoInput = document.getElementById('photo_upload');
+        if (photoInput && !photoInput.files[0]) {
+            document.getElementById('setProfilePhotoBtn').style.display = 'none';
+        }
+    });
+</script>
+
+<style>
+.profile-photo-container {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.profile-photo-wrapper {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 1rem;
+}
+
+.profile-photo {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 4px solid #00ff99;
+    object-fit: cover;
+    box-shadow: 0 4px 20px rgba(0, 255, 153, 0.3);
+    transition: all 0.3s ease;
+}
+
+.profile-photo:hover {
+    border-color: #ff9800;
+    box-shadow: 0 6px 25px rgba(255, 152, 0, 0.3);
+}
+
+.photo-upload-label {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background: #00ff99;
+    color: #181818;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid #181818;
+}
+
+.photo-upload-label:hover {
+    background: #ff9800;
+    transform: scale(1.1);
+}
+
+.edit-icon {
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.profile-form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.skills-section {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: #222;
+    border-radius: 10px;
+    border: 1px solid #1e90ff;
+}
+
+.skills-section h3 {
+    color: #00ff99;
+    margin-bottom: 1rem;
+}
+
+.skills-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.skill-tag {
+    background: linear-gradient(135deg, #00ff99, #00cc88);
+    color: #181818;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.skill-tag:hover {
+    background: linear-gradient(135deg, #ff9800, #ff6b00);
+    transform: translateY(-2px);
+}
+
+.remove-skill {
+    background: none;
+    border: none;
+    color: #181818;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 0;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.remove-skill:hover {
+    background: #ff0000;
+    color: white;
+}
+
+.add-skill {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.skill-input {
+    flex: 1;
+    margin-bottom: 0;
+}
+
+.profile-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #333;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #00ff99, #00cc88);
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #ff9800, #ff6b00);
+}
+
+.btn-secondary {
+    background: linear-gradient(135deg, #1e90ff, #00bfff);
+}
+
+.btn-outline {
+    background: transparent;
+    border: 2px solid #00ff99;
+    color: #00ff99;
+}
+
+.btn-outline:hover {
+    background: #00ff99;
+    color: #181818;
+}
+
+@media (max-width: 768px) {
+    .profile-form-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .profile-actions {
+        flex-direction: column;
+    }
+    
+    .profile-photo {
+        width: 120px;
+        height: 120px;
+    }
+}
+</style>
 {% endblock %}

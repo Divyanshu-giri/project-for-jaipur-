@@ -88,16 +88,77 @@ def get_available_fields():
 @app.route('/', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        # Example: check credentials (add your own logic)
         email = request.form.get('email')
         password = request.form.get('password')
-        if email and password:  # Replace with real authentication
-            session['user'] = email
-            return redirect(url_for('survey'))
+        
+        if not email or not password:
+            return render_template('login.html', error="Please provide both email and password")
+        
+        # Check if user exists and password is correct
+        user = User.query.filter_by(email=email).first()
+        
+        if user and user.check_password(password):
+            session['user_id'] = user.id
+            session['user_email'] = user.email
+            session['user_name'] = user.name
+            
+            # Check if user has completed survey
+            if user.career_field != 'Software Developer' or user.score > 0:
+                return redirect(url_for('dashboard'))
+            else:
+                return redirect(url_for('survey'))
         else:
-            # Optionally flash an error message
-            return render_template('login.html', error="Invalid credentials")
+            return render_template('login.html', error="Invalid email or password")
+    
     return render_template('login.html')
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        name = request.form.get('name', 'Student')
+        email = request.form.get('email')
+        password = request.form.get('password')
+        confirm_password = request.form.get('confirm_password')
+        
+        # Validation
+        if not email or not password:
+            return render_template('register.html', error="Please provide email and password")
+        
+        if password != confirm_password:
+            return render_template('register.html', error="Passwords do not match")
+        
+        # Check if user already exists
+        existing_user = User.query.filter_by(email=email).first()
+        if existing_user:
+            return render_template('register.html', error="Email already registered")
+        
+        # Create new user
+        new_user = User(
+            email=email,
+            name=name,
+            career_field='Software Developer',
+            score=0,
+            level='Beginner',
+            xp=0
+        )
+        new_user.set_password(password)
+        
+        try:
+            db.session.add(new_user)
+            db.session.commit()
+            
+            session['user_id'] = new_user.id
+            session['user_email'] = new_user.email
+            session['user_name'] = new_user.name
+            
+            flash('Registration successful! Please complete your profile.', 'success')
+            return redirect(url_for('survey'))
+            
+        except Exception as e:
+            db.session.rollback()
+            return render_template('register.html', error="Registration failed. Please try again.")
+    
+    return render_template('register.html')
 
 @app.route('/survey', methods=['GET', 'POST'])
 def survey():
@@ -218,12 +279,31 @@ from flask import jsonify
 # Profile view and edit
 @app.route('/resume')
 def resume():
+    # Try to load user data from database first
+    if 'user_id' in session:
+        user = User.query.get(session['user_id'])
+        if user:
+            resume_data = {
+                'name': user.name,
+                'email': user.email,
+                'about': user.about or 'Passionate learner ready to grow!',
+                'education': user.education or 'Not specified',
+                'hobbies': user.hobbies or '',
+                'career': user.career_field or 'Software Developer',
+                'summary': user.summary or 'Aspiring professional with strong foundational skills.',
+                'skills': user.get_skills(),
+                'photo': user.photo or url_for('static', filename='profile_photos/default.jpg')
+            }
+            # Update session with database data
+            session['user_data'] = resume_data
+            return render_template('resume.html', resume=resume_data)
+    
+    # Fall back to session data if no database user
     if 'user_data' in session:
-        # Use the user data from session
         resume_data = session['user_data'].copy()
         # Ensure all required fields are present
         resume_data.setdefault('name', 'Student')
-        resume_data.setdefault('email', session.get('user', ''))
+        resume_data.setdefault('email', session.get('user_email', ''))
         resume_data.setdefault('about', 'Passionate learner ready to grow!')
         resume_data.setdefault('education', 'Not specified')
         resume_data.setdefault('hobbies', '')
@@ -237,7 +317,7 @@ def resume():
         # Default resume data for new users
         resume_data = {
             'name': 'Student',
-            'email': session.get('user', ''),
+            'email': session.get('user_email', ''),
             'about': 'Passionate learner ready to grow!',
             'education': 'Not specified',
             'hobbies': '',
@@ -278,40 +358,57 @@ def courses():
 @app.route('/save_profile', methods=['POST'])
 def save_profile():
     if request.method == 'POST':
-        # Get form data
-        name = request.form.get('name', 'Student')
-        email = request.form.get('email', '')
-        about = request.form.get('about', 'Passionate learner ready to grow!')
-        education = request.form.get('education', 'Not specified')
-        hobbies = request.form.get('hobbies', '')
-        career = request.form.get('career', 'Software Developer')
-        summary = request.form.get('summary', 'Aspiring professional with strong foundational skills.')
-        
-        # Handle photo upload
-        photo_url = None
-        if 'photo_upload' in request.files:
-            file = request.files['photo_upload']
-            if file and allowed_file(file.filename):
-                filename = secure_filename(f"{email}_profile.jpg" if email else "default_profile.jpg")
-                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-                photo_url = url_for('static', filename=f'profile_photos/{filename}')
-        
-        # Handle skills
-        skills = session.get('user_data', {}).get('skills', [])
-        
-        # Add new skill
-        new_skill = request.form.get('add_skill', '').strip()
-        if new_skill and new_skill not in skills:
-            skills.append(new_skill)
-        
-        # Remove skill
-        del_skill = request.form.get('del_skill')
-        if del_skill and del_skill in skills:
-            skills.remove(del_skill)
-        
-        # Update user data in session
-        if 'user_data' in session:
-            session['user_data'].update({
+        try:
+            # Get form data
+            name = request.form.get('name', 'Student')
+            email = request.form.get('email', '')
+            about = request.form.get('about', 'Passionate learner ready to grow!')
+            education = request.form.get('education', 'Not specified')
+            hobbies = request.form.get('hobbies', '')
+            career = request.form.get('career', 'Software Developer')
+            summary = request.form.get('summary', 'Aspiring professional with strong foundational skills.')
+            
+            # Handle photo upload
+            photo_url = None
+            if 'photo_upload' in request.files:
+                file = request.files['photo_upload']
+                if file and allowed_file(file.filename):
+                    filename = secure_filename(f"{email}_profile.jpg" if email else "default_profile.jpg")
+                    file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                    photo_url = url_for('static', filename=f'profile_photos/{filename}')
+            
+            # Handle skills
+            skills = session.get('user_data', {}).get('skills', [])
+            
+            # Add new skill
+            new_skill = request.form.get('add_skill', '').strip()
+            if new_skill and new_skill not in skills:
+                skills.append(new_skill)
+            
+            # Remove skill
+            del_skill = request.form.get('del_skill')
+            if del_skill and del_skill in skills:
+                skills.remove(del_skill)
+            
+            # Update user in database
+            if 'user_id' in session:
+                user = User.query.get(session['user_id'])
+                if user:
+                    user.name = name
+                    user.email = email
+                    user.about = about
+                    user.education = education
+                    user.hobbies = hobbies
+                    user.career_field = career
+                    user.summary = summary
+                    user.set_skills(skills)
+                    if photo_url:
+                        user.photo = photo_url
+                    
+                    db.session.commit()
+            
+            # Update user data in session
+            session['user_data'] = {
                 'name': name,
                 'email': email,
                 'about': about,
@@ -320,12 +417,17 @@ def save_profile():
                 'career': career,
                 'summary': summary,
                 'skills': skills,
-                'photo': photo_url if photo_url else session['user_data'].get('photo')
-            })
+                'photo': photo_url if photo_url else session.get('user_data', {}).get('photo')
+            }
             session.modified = True
-        
-        flash('Profile saved successfully!', 'success')
-        return redirect(url_for('view_profile_card'))
+            
+            flash('Profile saved successfully!', 'success')
+            return redirect(url_for('view_profile_card'))
+            
+        except Exception as e:
+            db.session.rollback()
+            flash('Error saving profile. Please try again.', 'error')
+            return redirect(url_for('resume'))
 
 @app.route('/profile_card')
 def view_profile_card():
@@ -339,9 +441,53 @@ def view_profile_card():
 @app.route('/resume_edit', methods=['GET', 'POST'])
 def resume_edit():
     if request.method == 'POST':
-        # ...save profile edits...
-        return redirect(url_for('welcome'))
-    return render_template('resume_edit.html')  # Create this template
+        # Redirect to save_profile route to handle the form submission
+        return redirect(url_for('save_profile'))
+    
+    # Load user data for the edit form
+    if 'user_id' in session:
+        user = User.query.get(session['user_id'])
+        if user:
+            resume_data = {
+                'name': user.name,
+                'email': user.email,
+                'about': user.about or 'Passionate learner ready to grow!',
+                'education': user.education or 'Not specified',
+                'hobbies': user.hobbies or '',
+                'career': user.career_field or 'Software Developer',
+                'summary': user.summary or 'Aspiring professional with strong foundational skills.',
+                'skills': user.get_skills(),
+                'photo': user.photo or url_for('static', filename='profile_photos/default.jpg')
+            }
+            return render_template('resume_edit.html', resume=resume_data)
+    
+    # Fall back to session data
+    if 'user_data' in session:
+        resume_data = session['user_data'].copy()
+        resume_data.setdefault('name', 'Student')
+        resume_data.setdefault('email', session.get('user_email', ''))
+        resume_data.setdefault('about', 'Passionate learner ready to grow!')
+        resume_data.setdefault('education', 'Not specified')
+        resume_data.setdefault('hobbies', '')
+        resume_data.setdefault('career', 'Software Developer')
+        resume_data.setdefault('summary', 'Aspiring professional with strong foundational skills.')
+        resume_data.setdefault('skills', [])
+        resume_data.setdefault('photo', url_for('static', filename='profile_photos/default.jpg'))
+        return render_template('resume_edit.html', resume=resume_data)
+    
+    # Default data for new users
+    resume_data = {
+        'name': 'Student',
+        'email': session.get('user_email', ''),
+        'about': 'Passionate learner ready to grow!',
+        'education': 'Not specified',
+        'hobbies': '',
+        'career': 'Software Developer',
+        'summary': 'Aspiring professional with strong foundational skills.',
+        'skills': [],
+        'photo': url_for('static', filename='profile_photos/default.jpg')
+    }
+    return render_template('resume_edit.html', resume=resume_data)
 
 @app.route('/welcome')
 def welcome():
