@@ -1,0 +1,9 @@
+.resume-box {
+    background: #fff;
+    padding: 30px;
+    margin: 50px auto;
+    width: 600px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px #aaa;
+    font-family: 'Segoe UI', sans-serif;
+}

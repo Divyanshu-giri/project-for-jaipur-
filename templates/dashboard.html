@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>CareerCraft Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="stylesheet" href="/static/dashboard.css">
+</head>
+
+<body>
+    <div class="w3-topbar">
+        <span class="logo">CareerCraft</span>
+        <span class="user">Welcome, {{ resume.get('name', 'Student') }}</span>
+    </div>
+    <div class="w3-sidebar">
+        <a href="/dashboard" class="active">🏠 Dashboard</a>
+        <a href="/resume">👤 Profile</a>
+        <a href="/mentors">👥 Mentors</a>
+        <a href="/progress">📈 Progress</a>
+        <a href="/jobs">💼 Jobs</a>
+        <a href="/courses">🎓 Courses</a>
+        <a href="/roadmap">🗺️ Roadmap</a>
+        <a href="/meet" target="_blank">🎥 Google Meet</a>
+        <a href="/assistant" target="_blank">🤖 AI Assistant</a>
+    </div>
+    <div class="w3-main">
+        <div style="margin:60px auto;max-width:520px;text-align:center;">
+            <h2 style="color:#04AA6D;">Welcome to CareerCraft!</h2>
+            <p style="font-size:1.15rem;">Use the sidebar to access your Profile, Mentors, Progress, Jobs, Courses,
+                Roadmap, and more.</p>
+            <p style="color:#888;">Each section now has its own dedicated page for a better experience.</p>
+        </div>
+    </div>
+    <script src="/static/dashboard.js"></script>
+</body>
+
+</html>

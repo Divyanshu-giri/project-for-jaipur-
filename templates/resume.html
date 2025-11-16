@@ -1,0 +1,37 @@
+{% import '_layout.html' as layout %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Your Profile - CareerCraft</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="stylesheet" href="/static/resume.css">
+</head>
+
+<body style="background: #f4f8fb;">
+    {{ layout.header('Profile') }}
+    <div class="resume-box" style="display:flex;flex-direction:column;align-items:center;">
+        <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="Profile Photo"
+            style="width:110px;height:110px;border-radius:50%;box-shadow:0 2px 8px #e0e0e0;margin-bottom:12px;object-fit:cover;">
+        <h1 style="color:#2d3e50;">👤 {{ resume.name }}</h1>
+        <p><strong>Email:</strong> {{ resume.email }}</p>
+        <h2 style="color:#2d3e50;">Career Goal: {{ resume.career }}</h2>
+        <p>{{ resume.summary }}</p>
+        <div class="skills-list">
+            <strong>Skills:</strong>
+            <ul>
+                {% for skill in resume.skills %}
+                <li>✔️ {{ skill }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <a href="/dashboard"
+            style="display:inline-block; margin-top:18px; color:#2d3e50; text-decoration:underline;">&larr; Back to
+            Dashboard</a>
+    </div>
+    {{ layout.footer() }}
+</body>
+
+</html>

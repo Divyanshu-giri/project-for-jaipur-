@@ -1,0 +1,24 @@
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.login-box,
+.results-box {
+    background: white;
+    margin: 50px auto;
+    padding: 30px;
+    width: 400px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #ccc;
+}
+
+input,
+button {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+    padding: 10px;
+}

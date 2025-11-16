@@ -1,0 +1,12 @@
+.job-board {
+    padding: 30px;
+    background: #f0f0f0;
+}
+
+.job-card {
+    background: white;
+    padding: 20px;
+    margin: 15px 0;
+    border-radius: 8px;
+    box-shadow: 0 0 5px #ccc;
+}
