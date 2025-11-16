@@ -2,8 +2,7 @@ import os
 import json
 from flask import Flask, render_template, request, redirect, url_for, flash, session, send_from_directory
 from werkzeug.utils import secure_filename
-from flask_sqlalchemy import SQLAlchemy
-from models import db, User, Mentor, Job, Course, RoadmapStep, UserProgress, MentorConnection
+from models import db, User, Job, Course, RoadmapStep, UserProgress, MentorConnection
 from resume_builder import generate_resume
 from mentor_matcher import match_mentors
 from progress_tracker import calculate_progress
