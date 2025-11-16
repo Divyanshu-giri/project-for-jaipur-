@@ -1,0 +1,308 @@
+{% extends "_layout.html" %}
+
+{% block content %}
+<div class="w3-main">
+    <div class="card">
+        <div class="profile-card">
+            <!-- Profile Header -->
+            <div class="profile-header">
+                <img src="{{ user.photo if user.photo else url_for('static', filename='profile_photos/default.jpg') }}" 
+                     alt="Profile Photo" class="profile-card-photo">
+                <div class="profile-info">
+                    <h1 class="profile-name">{{ user.name }}</h1>
+                    <p class="profile-career">{{ user.career }}</p>
+                    <p class="profile-email">{{ user.email }}</p>
+                </div>
+            </div>
+
+            <!-- Professional Summary -->
+            {% if user.summary %}
+            <div class="profile-section">
+                <h3>Professional Summary</h3>
+                <p class="profile-summary">{{ user.summary }}</p>
+            </div>
+            {% endif %}
+
+            <!-- About Section -->
+            {% if user.about %}
+            <div class="profile-section">
+                <h3>About Me</h3>
+                <p class="profile-about">{{ user.about }}</p>
+            </div>
+            {% endif %}
+
+            <!-- Education -->
+            {% if user.education and user.education != 'Not specified' %}
+            <div class="profile-section">
+                <h3>Education</h3>
+                <p class="profile-education">{{ user.education }}</p>
+            </div>
+            {% endif %}
+
+            <!-- Hobbies -->
+            {% if user.hobbies %}
+            <div class="profile-section">
+                <h3>Hobbies & Interests</h3>
+                <p class="profile-hobbies">{{ user.hobbies }}</p>
+            </div>
+            {% endif %}
+
+            <!-- Skills -->
+            {% if user.skills %}
+            <div class="profile-section">
+                <h3>Skills</h3>
+                <div class="skills-grid">
+                    {% for skill in user.skills %}
+                    <span class="skill-badge">{{ skill }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Action Buttons -->
+            <div class="profile-actions">
+                <a href="{{ url_for('resume') }}" class="btn btn-primary">Edit Profile</a>
+                <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">Back to Dashboard</a>
+                <button onclick="window.print()" class="btn btn-outline">Print Profile</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.profile-card {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 2px solid #1e90ff;
+}
+
+.profile-card-photo {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 4px solid #00ff99;
+    object-fit: cover;
+    box-shadow: 0 4px 20px rgba(0, 255, 153, 0.3);
+}
+
+.profile-info {
+    flex: 1;
+}
+
+.profile-name {
+    color: #1e90ff;
+    font-size: 2.5rem;
+    margin: 0 0 0.5rem 0;
+    text-shadow: 0 2px 8px #1e90ff55;
+}
+
+.profile-career {
+    color: #ff9800;
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem 0;
+}
+
+.profile-email {
+    color: #00ff99;
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+.profile-section {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: #222;
+    border-radius: 12px;
+    border: 1px solid #1e90ff;
+}
+
+.profile-section h3 {
+    color: #00ff99;
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+    border-bottom: 2px solid #00ff99;
+    padding-bottom: 0.5rem;
+}
+
+.profile-summary,
+.profile-about,
+.profile-education,
+.profile-hobbies {
+    color: #e0e0e0;
+    line-height: 1.6;
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+.skills-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+}
+
+.skill-badge {
+    background: linear-gradient(135deg, #00ff99, #00cc88);
+    color: #181818;
+    padding: 0.6rem 1.2rem;
+    border-radius: 25px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.skill-badge:hover {
+    background: linear-gradient(135deg, #ff9800, #ff6b00);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(255, 152, 0, 0.3);
+}
+
+.profile-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid #333;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #00ff99, #00cc88);
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #ff9800, #ff6b00);
+}
+
+.btn-secondary {
+    background: linear-gradient(135deg, #1e90ff, #00bfff);
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+}
+
+.btn-outline {
+    background: transparent;
+    border: 2px solid #00ff99;
+    color: #00ff99;
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+}
+
+.btn-outline:hover {
+    background: #00ff99;
+    color: #181818;
+}
+
+/* Print Styles */
+@media print {
+    .w3-sidebar,
+    .w3-topbar,
+    .profile-actions {
+        display: none !important;
+    }
+    
+    .profile-card {
+        max-width: 100%;
+        margin: 0;
+    }
+    
+    .profile-card-photo {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .profile-name {
+        font-size: 2rem;
+        color: #000 !important;
+    }
+    
+    .profile-career {
+        color: #333 !important;
+    }
+    
+    .profile-section {
+        border: 1px solid #ccc;
+        background: #fff !important;
+    }
+    
+    .profile-section h3 {
+        color: #000 !important;
+        border-color: #000 !important;
+    }
+    
+    .profile-summary,
+    .profile-about,
+    .profile-education,
+    .profile-hobbies {
+        color: #000 !important;
+    }
+    
+    .skill-badge {
+        background: #f0f0f0 !important;
+        color: #000 !important;
+        border: 1px solid #ccc !important;
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .profile-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+    
+    .profile-card-photo {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .profile-name {
+        font-size: 2rem;
+    }
+    
+    .profile-career {
+        font-size: 1.1rem;
+    }
+    
+    .profile-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .btn-primary,
+    .btn-secondary,
+    .btn-outline {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+/* Animation for card appearance */
+@keyframes cardAppear {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.profile-card {
+    animation: cardAppear 0.6s ease-out;
+}
+</style>
+{% endblock %}

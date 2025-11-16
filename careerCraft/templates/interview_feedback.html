@@ -1,0 +1,11 @@
+{% extends "_layout.html" %}
+{% block content %}
+<div class="w3-main">
+    <a href="{{ url_for('dashboard') }}" class="btn" style="margin-bottom:1rem;">← Back to Dashboard</a>
+    <div class="card">
+        <h2>Interview Feedback</h2>
+        <p>Your feedback will be displayed here.</p>
+        <div id="feedback">{{ feedback }}</div>
+    </div>
+</div>
+{% endblock %}
