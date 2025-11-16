@@ -1,0 +1,70 @@
+{% extends "_layout.html" %}
+{% block content %}
+<div class="w3-main">
+    <div class="card form-card">
+        <h2 class="card-title">Login to CareerCraft</h2>
+        
+        {% if error %}
+        <div class="alert alert-error">
+            {{ error }}
+        </div>
+        {% endif %}
+        
+        <form method="POST" autocomplete="off">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" value="{{ request.form.email if request.form.email }}" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Login</button>
+        </form>
+        
+        <div class="auth-links">
+            <p>Don't have an account? <a href="{{ url_for('register') }}">Create one here</a></p>
+        </div>
+    </div>
+</div>
+
+<style>
+.alert {
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    border: 1px solid transparent;
+}
+
+.alert-error {
+    background-color: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #00ff99, #00cc88);
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #ff9800, #ff6b00);
+}
+
+.auth-links {
+    margin-top: 1.5rem;
+    text-align: center;
+    padding-top: 1rem;
+    border-top: 1px solid #333;
+}
+
+.auth-links a {
+    color: #00ff99;
+    text-decoration: none;
+}
+
+.auth-links a:hover {
+    color: #ff9800;
+    text-decoration: underline;
+}
+</style>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends "_layout.html" %}
+{% block content %}
+<div class="w3-main">
+    <div class="card">
+        <h1 class="card-title">Welcome to CareerCraft!</h1>
+        <p>
+            CareerCraft is your all-in-one career guidance and skill development platform.<br>
+            Explore personalized roadmaps, connect with mentors, track your progress, discover jobs, and access curated courses—all in one place.
+        </p>
+        <a href="{{ url_for('dashboard') }}" class="btn btn-block" style="margin-top:2rem;">Go to Dashboard</a>
+    </div>
+</div>
+{% endblock %}

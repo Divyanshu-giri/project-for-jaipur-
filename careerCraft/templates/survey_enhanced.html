@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Career Assessment - CareerCraft</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        .form-section {
+            background: #222;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border-left: 4px solid #00ff99;
+        }
+
+        .form-section h3 {
+            color: #ff9800;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid #333;
+            padding-bottom: 0.5rem;
+        }
+
+        .radio-group, .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .radio-option, .checkbox-option {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.8rem;
+            background: #2a2a2a;
+            border-radius: 8px;
+            border: 1px solid #333;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .radio-option:hover, .checkbox-option:hover {
+            background: #2d2d2d;
+            border-color: #00ff99;
+        }
+
+        .radio-option input, .checkbox-option input {
+            width: auto;
+            margin: 0;
+        }
+
+        .radio-option span, .checkbox-option span {
+            flex: 1;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+    </style>
+</head>
+<body>
+    {% extends "_layout.html" %}
+    {% block content %}
+    <div class="w3-main">
+        <div class="form-card">
+            <h2>🎯 Career Assessment</h2>
+            <p class="text-green">Help us understand your goals and interests to personalize your career journey</p>
+            
+            <form method="POST" action="{{ url_for('dashboard') }}">
+                <!-- Personal Information -->
+                <div class="form-section">
+                    <h3>👤 Personal Information</h3>
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" placeholder="your.email@example.com" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="number">Phone Number (Optional)</label>
+                        <input type="tel" id="number" name="number" placeholder="+1 (555) 123-4567">
+                    </div>
+                </div>
+
+                <!-- Career Interests -->
+                <div class="form-section">
+                    <h3>🎯 Career Interests</h3>
+                    <div class="form-group">
+                        <label for="career">What career field interests you most?</label>
+                        <select id="career" name="career" required>
+                            <option value="">Select a career field</option>
+                            <option value="Software Developer">💻 Software Development</option>
+                            <option value="Data Scientist">📊 Data Science</option>
+                            <option value="Digital Marketer">📱 Digital Marketing</option>
+                            <option value="Graphic Designer">🎨 Graphic Design</option>
+                            <option value="Business Analyst">📈 Business Analysis</option>
+                            <option value="UX/UI Designer">🎯 UX/UI Design</option>
+                            <option value="Project Manager">📋 Project Management</option>
+                            <option value="Cybersecurity">🔒 Cybersecurity</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="field">Specific Area of Interest</label>
+                        <input type="text" id="field" name="field" placeholder="e.g., Web Development, Machine Learning, Social Media Marketing">
+                    </div>
+                </div>
+
+                <!-- Skills & Experience -->
+                <div class="form-section">
+                    <h3>🛠️ Skills & Experience</h3>
+                    <div class="form-group">
+                        <label>Current Skill Level</label>
+                        <div class="radio-group">
+                            <label class="radio-option">
+                                <input type="radio" name="experience" value="beginner" checked>
+                                <span>👶 Beginner (0-1 years)</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="experience" value="intermediate">
+                                <span>🚀 Intermediate (1-3 years)</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="experience" value="advanced">
+                                <span>🔥 Advanced (3+ years)</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="skills">Skills you already have (comma separated)</label>
+                        <input type="text" id="skills" name="skills" placeholder="e.g., Python, JavaScript, Photoshop, SEO">
+                    </div>
+                </div>
+
+                <!-- Goals & Preferences -->
+                <div class="form-section">
+                    <h3>🎯 Career Goals</h3>
+                    <div class="form-group">
+                        <label>What are your primary goals?</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="goals" value="first_job">
+                                <span>🚀 Land my first job in tech</span>
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="goals" value="career_switch">
+                                <span>🔄 Switch to a new career field</span>
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="goals" value="skill_upgrade">
+                                <span>📚 Upgrade my current skills</span>
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="goals" value="freelance">
+                                <span>💼 Start freelancing</span>
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="goals" value="promotion">
+                                <span>📈 Get promoted</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="timeline">When do you want to achieve your goals?</label>
+                        <select id="timeline" name="timeline">
+                            <option value="3months">⏰ Within 3 months</option>
+                            <option value="6months">⏰ Within 6 months</option>
+                            <option value="1year">⏰ Within 1 year</option>
+                            <option value="2years">⏰ Within 2 years</option>
+                            <option value="flexible">🔄 Flexible timeline</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Personal Interests -->
+                <div class="form-section">
+                    <h3>❤️ Personal Interests & Hobbies</h3>
+                    <div class="form-group">
+                        <label for="hobbies">What do you enjoy doing in your free time?</label>
+                        <textarea id="hobbies" name="hobbies" rows="3" placeholder="e.g., Reading tech blogs, building side projects, photography, gaming..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="learning_style">Preferred Learning Style</label>
+                        <select id="learning_style" name="learning_style">
+                            <option value="visual">👀 Visual (Videos, Diagrams)</option>
+                            <option value="reading">📖 Reading (Articles, Books)</option>
+                            <option value="hands_on">🛠️ Hands-on (Projects, Practice)</option>
+                            <option value="interactive">👥 Interactive (Mentorship, Discussions)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- About Yourself -->
+                <div class="form-section">
+                    <h3>📝 About You</h3>
+                    <div class="form-group">
+                        <label for="about">Tell us about yourself and your aspirations</label>
+                        <textarea id="about" name="about" rows="4" placeholder="Share your background, passions, and what motivates you in your career journey..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="education">Education Background</label>
+                        <input type="text" id="education" name="education" placeholder="e.g., Bachelor's in Computer Science, Self-taught, Bootcamp graduate">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-block">🚀 Start My Career Journey</button>
+            </form>
+        </div>
+    </div>
+    {% endblock %}
+</body>
+</html>
